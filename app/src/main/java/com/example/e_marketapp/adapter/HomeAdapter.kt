@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.e_marketapp.databinding.HomeItemRowBinding
 import com.example.e_marketapp.model.BaseModelItem
+import com.example.e_marketapp.util.urlToImageGlide
 
-class HomeAdapter :
-    RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class HomeAdapter(private val clickItemData : ((BaseModelItem)-> Unit)?=null ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     private val marketModelList = arrayListOf<BaseModelItem>()
 
@@ -25,9 +25,13 @@ class HomeAdapter :
         @SuppressLint("SetTextI18n")
         fun bind(marketItem: BaseModelItem) {
             binding.apply {
-                Glide.with(binding.root).load(marketItem.image).into(marketItemImage)
+                marketItemImage.urlToImageGlide(marketItem.image)
                 marketItemPrice.text = marketItem.price + "$"
                 marketItemName.text = marketItem.name
+
+                itemView.setOnClickListener {
+                    clickItemData?.invoke(marketItem)
+                }
             }
         }
     }

@@ -6,15 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeFragment">
 
+    <com.example.e_marketapp.component.CustomToolBar
+        android:id="@+id/customToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:action_first_icon_visibility="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:toolBarText="@string/e_market"
+        app:navigation_icon_visibility="false"
+        app:toolBarTextColor="@color/white" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/searchCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size5"
+        android:layout_marginEnd="@dimen/size5"
+        android:layout_marginTop="@dimen/size5"
+        app:cardCornerRadius="@dimen/size3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customToolBar">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@color/transparent"
+            app:queryHint="@string/search_here" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/filterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filters"
+        android:layout_marginTop="@dimen/size10"
+        android:textSize="@dimen/body1Size"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@+id/searchCard"
+        app:layout_constraintTop_toBottomOf="@+id/searchCard" />
+
+    <com.example.e_marketapp.component.CustomContinueButton
+        android:id="@+id/selectFilterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/grey"
+        app:buttonText="Select Filter"
+        app:buttonTextColor="@color/black"
+        android:padding="@dimen/size3"
+        android:paddingStart="@dimen/size10"
+        android:paddingEnd="@dimen/size10"
+        app:layout_constraintBottom_toBottomOf="@+id/filterText"
+        app:layout_constraintEnd_toEndOf="@+id/searchCard"
+        app:layout_constraintTop_toTopOf="@+id/filterText" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:visibility="gone"
+        android:layout_marginTop="@dimen/size10"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_error_text" />
+        app:layout_constraintTop_toBottomOf="@+id/filterText" />
 
     <ProgressBar
         android:id="@+id/home_progress_bar"
@@ -24,20 +84,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/filterText" />
 
     <TextView
         android:id="@+id/home_error_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/home_recycler_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/filterText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/size5"
-    app:cardBackgroundColor="@color/grey"
+    app:cardBackgroundColor="@color/lightwhite"
     app:cardCornerRadius="@dimen/size5"
-    app:cardElevation="@dimen/size5">
+    app:cardElevation="@dimen/size3">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -64,7 +64,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:buttonFontFamily="@font/poppins_semi_bold"
+            android:background="@drawable/custom_continue_button"
             app:buttonText="@string/add_to_card"
+            app:buttonTextColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/marketItemName"
             app:layout_constraintStart_toStartOf="@+id/marketItemName" />

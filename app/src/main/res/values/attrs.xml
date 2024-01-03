@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="CustomContinueButton">
         <attr name="buttonText" format="string" />
         <attr name="buttonTextColor" format="color" />
@@ -7,4 +8,16 @@
         <attr name="buttonFontFamily" format="reference" />
         <attr name="buttonBackgroundColor" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="CustomToolBar">
+        <attr name="toolBarText" format="string" />
+        <attr name="toolBarTextColor" format="color" />
+        <attr name="toolBarBackgroundColor" format="color" />
+        <attr name="navigation_icon" format="reference" />
+        <attr name="navigation_icon_visibility" format="boolean" />
+        <attr name="action_first_icon" format="reference" />
+        <attr name="action_first_icon_visibility" format="boolean" />
+        <attr name="toolbar_detail_text" format="string" />
+    </declare-styleable>
+
 </resources>

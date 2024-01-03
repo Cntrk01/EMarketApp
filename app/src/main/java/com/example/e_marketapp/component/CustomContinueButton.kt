@@ -15,7 +15,7 @@ class CustomContinueButton(context: Context, attrs: AttributeSet) :
         val textView: TextView = findViewById(R.id.customMainButtonText)
         val constraintLayout : ConstraintLayout =findViewById(R.id.contineButtonConstraint)
         val attributes = context.obtainStyledAttributes(attrs, R.styleable.CustomContinueButton)
-        //val textColor = attributes.getColor(R.styleable.CustomContinueButton_buttonTextColor, context.getColor(R.color.black))
+        val textColor = attributes.getColor(R.styleable.CustomContinueButton_buttonTextColor, context.getColor(R.color.black))
         val fontFamily=attributes.getFont(R.styleable.CustomContinueButton_buttonFontFamily)
         //val backgroundDrawable = attributes.getDrawable(R.styleable.CustomContinueButton_buttonBackgroundDrawable)
         //val backgroundColor = attributes.getColor(R.styleable.CustomContinueButton_buttonBackgroundColor, context.getColor(R.color.transparent))
@@ -23,7 +23,7 @@ class CustomContinueButton(context: Context, attrs: AttributeSet) :
         //constraintLayout.background=backgroundDrawable
         //constraintLayout.setBackgroundColor(backgroundColor)
         textView.text=attributes.getString(R.styleable.CustomContinueButton_buttonText)
-        //textView.setTextColor(textColor)
+        textView.setTextColor(textColor)
         if (fontFamily.toString().isNotEmpty()) {
             val typeface = Typeface.create(fontFamily, Typeface.NORMAL)
             textView.typeface = typeface
