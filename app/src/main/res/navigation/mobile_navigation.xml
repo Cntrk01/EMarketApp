@@ -9,17 +9,47 @@
         android:id="@+id/home"
         android:name="com.example.e_marketapp.ui.home.HomeFragment"
         android:label="@string/e_market"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/basket"
         android:name="com.example.e_marketapp.ui.basket.BasketFragment"
         android:label="@string/basket"
-        tools:layout="@layout/fragment_basket" />
+        tools:layout="@layout/fragment_basket" >
+        <action
+            android:id="@+id/action_basket_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/favorite"
         android:name="com.example.e_marketapp.ui.favorite.FavoriteFragment"
         android:label="@string/favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favorite_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.e_marketapp.ui.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_detailFragment_to_home"
+            app:destination="@id/home" />
+        <action
+            android:id="@+id/action_detailFragment_to_basket"
+            app:destination="@id/basket" />
+        <action
+            android:id="@+id/action_detailFragment_to_favorite"
+            app:destination="@id/favorite" />
+        <argument
+            android:name="itemArgs"
+            app:argType="com.example.e_marketapp.model.BaseModelItem" />
+    </fragment>
 </navigation>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.detail.DetailFragment">
+
+    <com.example.e_marketapp.component.CustomToolBar
+        android:id="@+id/customToolBar"
+        android:layout_width="match_parent"
+        android:elevation="@dimen/size3"
+        android:layout_height="wrap_content"
+        app:navigation_icon="@drawable/baseline_arrow_back_24"
+        app:action_first_icon_visibility="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigation_icon_visibility="true"
+        app:toolBarTextColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/marketItemStar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/unstar"
+        android:elevation="@dimen/size5"
+        android:layout_marginEnd="@dimen/size5"
+        android:layout_marginTop="@dimen/size5"
+        app:layout_constraintEnd_toEndOf="@+id/detailImage"
+        app:layout_constraintTop_toTopOf="@+id/detailImage" />
+
+    <ImageView
+        android:id="@+id/detailImage"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="@dimen/size5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customToolBar" />
+
+    <TextView
+        android:id="@+id/detailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size5"
+        android:fontFamily="@font/poppins_bold"
+        android:text="APPLE IPHONE 14"
+        android:textColor="@color/black"
+        android:textSize="@dimen/body1Size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/detailImage"
+        app:layout_constraintTop_toBottomOf="@+id/detailImage" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size0"
+        android:layout_marginTop="@dimen/size3"
+        android:layout_marginBottom="@dimen/size10"
+        app:layout_constraintBottom_toTopOf="@+id/detailPriceText"
+        app:layout_constraintEnd_toEndOf="@+id/detailImage"
+        app:layout_constraintStart_toStartOf="@+id/detailTitle"
+        app:layout_constraintTop_toBottomOf="@+id/detailTitle">
+
+        <TextView
+            android:id="@+id/detailDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ASDKLASDKLASDKLDKLASDKLAKSDLKLASDKLSDKLSDKLASDKLASDKLASDKLADSKLASDKLASDKLASD"
+            android:textColor="@color/black"
+            android:textSize="@dimen/body2Size1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailTitle" />
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/detailPriceText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/price"
+        android:textColor="@color/_2A59FE"
+        android:textSize="@dimen/body10Size"
+        app:layout_constraintBottom_toBottomOf="@+id/addToCartButton"
+        app:layout_constraintStart_toStartOf="@+id/scrollView2"
+        app:layout_constraintTop_toTopOf="@+id/addToCartButton"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/detailPriceAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size3"
+        android:fontFamily="@font/poppins_bold"
+        android:text="123123123131"
+        android:layout_marginTop="@dimen/size3"
+        android:textColor="@color/black"
+        android:textSize="@dimen/body2Size"
+        app:layout_constraintBottom_toBottomOf="@+id/addToCartButton"
+        app:layout_constraintStart_toStartOf="@+id/detailPriceText"
+        app:layout_constraintTop_toBottomOf="@+id/detailPriceText" />
+
+    <com.example.e_marketapp.component.CustomContinueButton
+        android:id="@+id/addToCartButton"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size50"
+        android:layout_marginBottom="@dimen/size10"
+        android:background="@drawable/custom_continue_button_low_radius"
+        app:buttonText="@string/add_to_card"
+        app:buttonTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/detailPriceAmount" />
+</androidx.constraintlayout.widget.ConstraintLayout>

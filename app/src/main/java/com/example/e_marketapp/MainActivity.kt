@@ -24,10 +24,9 @@ class MainActivity : AppCompatActivity() {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.home, R.id.basket, R.id.favorite)
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.home, R.id.basket, R.id.favorite))
+//bunu kapattım ve noaction bara çekip toolbarı kapattım
+//      setupActionBarWithNavController(navController)
         navView.setupWithNavController(navController)
     }
 }
