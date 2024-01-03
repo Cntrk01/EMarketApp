@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/size5"
+    app:cardBackgroundColor="@color/grey"
+    app:cardCornerRadius="@dimen/size5"
+    app:cardElevation="@dimen/size5">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/size5">
+
+        <ImageView
+            android:id="@+id/marketItemStar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size5"
+            android:elevation="@dimen/size5"
+            android:layout_marginEnd="@dimen/size5"
+            android:background="@drawable/unstar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/marketItemImage"
+            android:layout_width="match_parent"
+            android:elevation="@dimen/size0"
+            android:layout_height="@dimen/size70"
+            android:background="@drawable/ic_launcher_foreground"
+            android:scaleType="centerCrop"
+            android:layout_marginTop="@dimen/size3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/marketItemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="15.000"
+            android:textSize="@dimen/body2Size"
+            app:layout_constraintStart_toStartOf="@+id/marketItemImage"
+            app:layout_constraintTop_toBottomOf="@id/marketItemImage" />
+
+        <TextView
+            android:id="@+id/marketItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/size5"
+            android:text="ASDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDsaasdasdadasdasd"
+            android:textSize="@dimen/body2Size"
+            android:layout_marginBottom="@dimen/size15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/marketItemPrice"
+            app:layout_constraintBottom_toTopOf="@+id/addToCardItem"/>
+
+        <com.example.e_marketapp.component.CustomContinueButton
+            android:id="@+id/addToCardItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:buttonFontFamily="@font/poppins_semi_bold"
+            app:buttonText="@string/add_to_card"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/marketItemName"
+            app:layout_constraintStart_toStartOf="@+id/marketItemName" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
