@@ -1,42 +1,35 @@
 package com.example.e_marketapp.ui.home
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.e_marketapp.databinding.FragmentHomeBinding
+import com.example.e_marketapp.util.BaseFragment
+import com.example.e_marketapp.viewmodel.MarketViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
+    private val marketViewModel: MarketViewModel by viewModels()
 
-    private var _binding: FragmentHomeBinding? = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        lifecycleScope.launch {
+            marketViewModel.marketDataState.collectLatest {
+                if (it.isLoading) {
+                    println("LOADING")
+                }
+                else if (it.error.toString().isNotEmpty()) {
+                    println("ERROR")
+                }
+                else {
+                    println(it.marketModel)
+                }
+            }
         }
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
