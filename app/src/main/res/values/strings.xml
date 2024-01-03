@@ -3,5 +3,6 @@
     <string name="e_market">E-Market</string>
     <string name="basket">Basket</string>
     <string name="favorite">Favorite</string>
+    <string name="add_to_card">Add To Card</string>
 
 </resources>
