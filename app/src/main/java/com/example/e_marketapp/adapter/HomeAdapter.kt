@@ -22,7 +22,7 @@ class HomeAdapter(
     private var marketCheckList = ArrayList<MarketEntity>()
 
     fun addData(newData: List<BaseModelItem>) {
-        this.marketModelList = emptyList()
+        //this.marketModelList = emptyList()
         this.marketModelList = newData
         notifyDataSetChanged()
         println("ADAPTER LİST SİZE : ${marketModelList.size}")
