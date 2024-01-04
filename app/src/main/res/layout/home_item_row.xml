@@ -16,14 +16,27 @@
 
         <ImageView
             android:id="@+id/marketItemStar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/size20"
+            android:layout_height="@dimen/size20"
             android:layout_marginTop="@dimen/size5"
             android:elevation="@dimen/size5"
             android:layout_marginEnd="@dimen/size5"
-            android:background="@drawable/unstar"
+            android:background="@drawable/star"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/marketItemUnStar"
+            android:layout_width="@dimen/size20"
+            android:layout_height="@dimen/size20"
+            android:background="@drawable/unstar"
+            android:elevation="@dimen/size5"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/marketItemStar"
+            app:layout_constraintEnd_toEndOf="@+id/marketItemStar"
+            app:layout_constraintStart_toStartOf="@+id/marketItemStar"
+            app:layout_constraintTop_toTopOf="@+id/marketItemStar" />
 
         <ImageView
             android:id="@+id/marketItemImage"

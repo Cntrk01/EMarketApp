@@ -7,6 +7,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.e_marketapp.R
 import com.example.e_marketapp.databinding.CustomToolBarBinding
+import com.example.e_marketapp.util.clickWithDebounce
 
 class CustomToolBar(context: Context, attrs: AttributeSet) : ConstraintLayout(
     context, attrs
@@ -32,7 +33,7 @@ class CustomToolBar(context: Context, attrs: AttributeSet) : ConstraintLayout(
         binding.navigationIcon.apply {
             setImageDrawable(navigationIcon)
             visibility = if (navigationIconVisibility) View.VISIBLE else View.GONE
-            setOnClickListener {
+            clickWithDebounce {
                 navigationIconSetOnClickListener.invoke(it)
             }
         }
