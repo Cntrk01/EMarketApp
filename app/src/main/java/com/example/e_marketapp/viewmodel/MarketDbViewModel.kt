@@ -66,7 +66,8 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
                             isAdded = false,
                             error = null,
                             marketData = null,
-                            loading = true
+                            loading = true,
+                            isDeleted = false
                         )
                     }
                 }
@@ -78,6 +79,7 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
                             error = it.message.toString(),
                             marketData = null,
                             loading = false,
+                            isDeleted = false
                         )
                     }
                 }
@@ -88,7 +90,8 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
                             isAdded = true,
                             error = null,
                             marketData = null,
-                            loading = false
+                            loading = false,
+                            isDeleted = false
                         )
                     }
                 }
@@ -100,27 +103,15 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
         marketDbUseCase.deleteMarketItem(marketItemId).collectLatest {
             when (it) {
                 is Response.Loading -> {
-                    _getAllData.update { dbState ->
-                        dbState.copy(loading = true, isDeleted = false)
-                    }
+                    _getAllData.value=MarketDbState(loading = true, isDeleted = false)
                 }
 
                 is Response.Error -> {
-                    _getAllData.update { dbState ->
-                        dbState.copy(error = it.message.toString(), isDeleted = false)
-                    }
+                    _getAllData.value=MarketDbState(error = it.message.toString(), isDeleted = false)
                 }
 
                 else -> {
-                    _getAllData.update { dbState ->
-                        dbState.copy(
-                            isAdded = false,
-                            error = null,
-                            marketData = null,
-                            loading = false,
-                            isDeleted = true
-                        )
-                    }
+                    _getAllData.value= MarketDbState(isDeleted = true)
                 }
             }
         }

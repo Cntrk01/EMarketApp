@@ -84,13 +84,13 @@ class HomeAdapter(
         val inf = HomeItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(inf)
     }
+    
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(marketItem = marketModelList[position])
+    }
 
     override fun getItemCount(): Int {
         return marketModelList.size
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(marketItem = marketModelList[position])
     }
 
     private fun isStarred(id: String): Boolean {
