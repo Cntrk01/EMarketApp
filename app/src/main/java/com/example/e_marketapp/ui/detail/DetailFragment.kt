@@ -24,40 +24,34 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private val args: DetailFragmentArgs by navArgs()
     private val marketDbViewModel: MarketDbViewModel by viewModels()
-    private var roomId=0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkDbHasData()
+        buttonClicks()
     }
 
     private fun checkDbHasData() {
         marketDbViewModel.getMealClickedItem(args.itemArgs.id)
         marketDbViewModel.viewModelScope.launch {
             marketDbViewModel.getAllData.collectLatest {
+                if (it.isDeleted==true){
+                    binding.marketItemStar.visibility=View.INVISIBLE
+                    binding.marketItemUnStar.visibility=View.VISIBLE
+                }else if (it.isDeleted==false){
+                    binding.marketItemStar.visibility=View.VISIBLE
+                    binding.marketItemUnStar.visibility=View.INVISIBLE
+                }else{
+                    binding.marketItemStar.visibility=View.INVISIBLE
+                    binding.marketItemUnStar.visibility=View.VISIBLE
+                }
                 if (it.marketDataWithId != null) {
-                    roomId=it.marketDataWithId.marketId.toInt()
-                    println("ROOMDAN GELDİ")
                     it.marketDataWithId.apply {
-                        setArgsData(
-                            toolBarText = name,
-                            imageUrl = image,
-                            title = name,
-                            description = description,
-                            price = price,
-                        )
+                      setArgsData(toolBarText = name, imageUrl = image, title = name, description = description, price = price,)
                     }
                 } else {
-                    println("ARGS GELDİ")
-                    roomId=0
                     args.itemArgs.apply {
-                        setArgsData(
-                            toolBarText = name,
-                            imageUrl = image,
-                            title = name,
-                            description = description,
-                            price = price,
-                        )
+                      setArgsData(toolBarText = name, imageUrl = image, title = name, description = description, price = price)
                     }
                 }
             }
@@ -80,51 +74,42 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             detailDescription.text = description
             detailPriceAmount.text = price
 
-            addToCartButton.clickWithDebounce {
-                clickAddToCardButton()
-            }
             if (toolBarText.length > 15) {
                 customToolBarText.text = toolBarText.substring(0, 15) + "..."
             } else {
                 customToolBarText.text = toolBarText
             }
-
             customToolBar.navigationIconSetOnClickListener {
                 popBackStack(requireView())
             }
-
-            marketItemStar.setOnClickListener {
-                clickStarIcon()
-            }
-
         }
     }
 
-    private fun clickStarIcon() {
-        println("ARGS ID"  +args.itemArgs.id)
-        println("ROOM ID"  +roomId)
-        if (roomId ==0) {
-            binding.marketItemStar.visibility=View.VISIBLE
-            binding.marketItemUnStar.visibility=View.INVISIBLE
-            args.itemArgs.apply {
-                marketDbViewModel.addMarketItem(
-                    MarketEntity(
-                        marketId = id,
-                        brand = brand,
-                        createdAt = createdAt,
-                        description = description,
-                        image = image,
-                        model = model,
-                        name = name,
-                        price = price
-                    )
-                )
+    private fun buttonClicks(){
+        binding.apply {
+            addToCartButton.clickWithDebounce {
+                clickAddToCardButton()
             }
-        } else {
-            binding.marketItemStar.visibility=View.INVISIBLE
-            binding.marketItemUnStar.visibility=View.VISIBLE
-            marketDbViewModel.deleteMarketItem(roomId.toString())
+            marketItemStar.setOnClickListener {
+                marketDbViewModel.deleteMarketItem(args.itemArgs.id)
+            }
 
+            marketItemUnStar.setOnClickListener {
+                args.itemArgs.apply {
+                    marketDbViewModel.addMarketItem(
+                        MarketEntity(
+                            marketId = id,
+                            brand = brand,
+                            createdAt = createdAt,
+                            description = description,
+                            image = image,
+                            model = model,
+                            name = name,
+                            price = price
+                        )
+                    )
+                }
+            }
         }
     }
 

@@ -34,6 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var scrollingUp = true
     private var newCheckState = 1
     private lateinit var homeAdapter: HomeAdapter
+    var isFirstLoad=true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,9 +58,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         homeProgressBar.visibility = View.GONE
                         homeRecyclerView.visibility = View.VISIBLE
                         it.marketModel?.let { newMarketData ->
-                            marketList.clear()
-                            marketList.addAll(newMarketData)
-                            homeAdapter.addData(marketList.take(4))
+                            if (isFirstLoad || scrollingUp) {
+                                marketList.clear()
+                                marketList.addAll(newMarketData)
+                                homeAdapter.addData(marketList.take(marketSize))
+                                isFirstLoad = false
+                            }
                         }
                     }
                 }
@@ -175,8 +179,4 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         observeMarketData()
     }
 
-    override fun onPause() {
-        super.onPause()
-        observeMarketData()
-    }
 }
