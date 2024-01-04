@@ -2,7 +2,9 @@ package com.example.e_marketapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.e_marketapp.local.MarketBasketEntity
 import com.example.e_marketapp.local.MarketEntity
+import com.example.e_marketapp.states.BasketState
 import com.example.e_marketapp.states.MarketDbState
 import com.example.e_marketapp.usecase.MarketDbUseCase
 import com.example.e_marketapp.util.Response
@@ -21,6 +23,9 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
 
     private var _getAllData = MutableStateFlow(MarketDbState())
     val getAllData: StateFlow<MarketDbState> get() = _getAllData
+
+    private var _basketState = MutableStateFlow(BasketState())
+    val basketState : StateFlow<BasketState> get() = _basketState
 
     init {
         getAllItems()
@@ -142,5 +147,53 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
         }
     }
 
+
+    fun getBasketItems() = viewModelScope.launch {
+        marketDbUseCase.getBasketItems().collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _basketState.value=BasketState(loading = true)
+                }
+                is Response.Error->{
+                    _basketState.value=BasketState(loading = false, error = it.message.toString())
+                }
+                else ->{
+                    _basketState.value=BasketState(loading = false, error ="", basketData = it.data)
+                }
+            }
+        }
+    }
+
+    fun addBasketItem(basketEntity: MarketBasketEntity) = viewModelScope.launch {
+        marketDbUseCase.addBasketItems(basketEntity = basketEntity).collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _basketState.value=BasketState(loading = true)
+                }
+                is Response.Error->{
+                    _basketState.value=BasketState(loading = false, error = it.message.toString())
+                }
+                else ->{
+                    _basketState.value=BasketState(loading = false, error ="", basketAdded = "Added To Basket..")
+                }
+            }
+        }
+    }
+
+    fun deleteBasketItem(basketEntity: MarketBasketEntity) = viewModelScope.launch {
+        marketDbUseCase.minusProductCount(basketEntity = basketEntity).collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _basketState.value=BasketState(loading = true)
+                }
+                is Response.Error->{
+                    _basketState.value=BasketState(loading = false, error = it.message.toString())
+                }
+                else ->{
+                    _basketState.value=BasketState(loading = false, error ="", basketAdded = "Deleted To Basket..")
+                }
+            }
+        }
+    }
 
 }

@@ -19,4 +19,19 @@ interface MarketDao {
 
     @Query("SELECT * FROM items WHERE items.marketId=:clickMarketId")
     suspend fun getMarketItemWithId(clickMarketId:String) : MarketEntity
+
+    @Query("SELECT * FROM basket")
+    fun getBasketItems(): Flow<List<MarketBasketEntity>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addBasketItems(basketEntity: MarketBasketEntity)
+
+    @Query("UPDATE basket SET productPrice= :productPrice, productCount = productCount + :count WHERE productId = :productId")
+    suspend fun plusProductCount(productId: String, count: Int,productPrice:Double)
+
+    @Query("UPDATE basket SET productPrice= :productPrice, productCount = productCount - :count WHERE productId = :productId")
+    suspend fun minusProductCount(productId: String, count: Int, productPrice: Double)
+
+    @Query("SELECT * FROM basket WHERE productId = :productId LIMIT 1")
+    suspend fun getBasketItem(productId: String): MarketBasketEntity?
 }

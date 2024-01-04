@@ -1,5 +1,6 @@
 package com.example.e_marketapp.repository
 
+import com.example.e_marketapp.local.MarketBasketEntity
 import com.example.e_marketapp.local.MarketDao
 import com.example.e_marketapp.local.MarketEntity
 import com.example.e_marketapp.util.Response
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
+
     fun getAllItems(): Flow<Response<List<MarketEntity>>> {
         return channelFlow {
             try {
@@ -60,6 +62,63 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
                     emit(Response.Success(getMarketItem))
                 }
             }catch (e: Exception) {
+                emit(Response.Error(message = e.message.toString() ?: ""))
+            }
+        }
+    }
+
+    fun getBasketItems() : Flow<Response<List<MarketBasketEntity>>>{
+        return channelFlow {
+            try {
+                trySend(Response.Loading())
+                val dbData = dao.getBasketItems()
+                dbData.collectLatest {
+                    trySend(Response.Success(data = it))
+                }
+            } catch (e: Exception) {
+                trySend(Response.Error(message = e.message.toString() ?: ""))
+            }
+            awaitClose()
+        }
+    }
+
+    suspend fun addBasketItems(basketEntity: MarketBasketEntity): Flow<Response<Unit>>{
+        return flow {
+            try {
+                emit(Response.Loading())
+                val existingItem = dao.getBasketItem(basketEntity.productId)
+                if (existingItem != null) {
+                    val totalPrice=basketEntity.singleItemPrice.toDouble() * (existingItem.productCount.toDouble()+1.00)
+                    dao.plusProductCount(basketEntity.productId,1, totalPrice)
+                } else {
+                    dao.addBasketItems(basketEntity = basketEntity)
+                }
+                emit(Response.Success(Unit))
+            } catch (e: Exception) {
+                emit(Response.Error(message = e.message.toString() ?: ""))
+            }
+        }
+    }
+
+    suspend fun minusProductCount(basketEntity: MarketBasketEntity) : Flow<Response<Unit>>{
+        return flow {
+            try {
+                emit(Response.Loading())
+                val existingItem = dao.getBasketItem(basketEntity.productId)
+
+                if (existingItem != null) {
+                    val newCount = existingItem.productCount - 1
+                    if (newCount >= 0) {
+                        val totalPrice = basketEntity.singleItemPrice.toDouble() * newCount
+                        dao.minusProductCount(basketEntity.productId, 1, totalPrice)
+                        emit(Response.Success(Unit))
+                    } else {
+                        emit(Response.Error(message = "Item Size 0"))
+                    }
+                } else {
+                    emit(Response.Error(message = "Item not found"))
+                }
+            } catch (e: Exception) {
                 emit(Response.Error(message = e.message.toString() ?: ""))
             }
         }

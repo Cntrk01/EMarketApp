@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.e_marketapp.R
 import com.example.e_marketapp.adapter.HomeAdapter
 import com.example.e_marketapp.databinding.FragmentHomeBinding
+import com.example.e_marketapp.local.MarketBasketEntity
 import com.example.e_marketapp.local.MarketEntity
 import com.example.e_marketapp.model.BaseModelItem
 import com.example.e_marketapp.util.BaseFragment
@@ -102,6 +103,16 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             } else {
                 marketDbViewModel.deleteMarketItem(it.id)
             }
+        }, addToCardClick = {
+            marketDbViewModel.addBasketItem(
+                MarketBasketEntity(
+                    productId = it.id,
+                    productCount = 1,
+                    productName = it.name,
+                    productPrice = it.price.toDouble(),
+                    singleItemPrice = it.price
+                )
+            )
         })
         homeAdapter.notifyDataSetChanged()
         binding.homeRecyclerView.adapter = homeAdapter
