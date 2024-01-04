@@ -11,5 +11,10 @@
     <string name="filters">Filters:</string>
     <string name="query_not_found">Query Not Found ...</string>
     <string name="not_found_data_in_storage">Not Found Data In Storage...</string>
+    <string name="total">Total :</string>
+    <string name="complete">Complete</string>
+    <string name="no_items_in_basket">No Items In Basket...</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
 
 </resources>

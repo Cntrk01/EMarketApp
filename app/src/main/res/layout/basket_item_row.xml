@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:padding="@dimen/size5"
+    android:layout_margin="@dimen/size5"
+    android:background="@color/lightwhite"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/itemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Samsung S22"
+        android:textColor="@color/black"
+        android:textSize="@dimen/header3Size"
+        android:layout_marginStart="@dimen/size10"
+        android:layout_marginTop="@dimen/size5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/itemPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12.000"
+        android:textColor="@color/_2A59FE"
+        android:textSize="@dimen/header4Size"
+        app:layout_constraintStart_toStartOf="@+id/itemName"
+        app:layout_constraintTop_toBottomOf="@+id/itemName" />
+
+    <Button
+        android:id="@+id/minusButton"
+        android:layout_width="@dimen/size20"
+        android:layout_height="@dimen/size20"
+        android:backgroundTint="@color/lightwhite"
+        android:text="@string/minus"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/itemCount"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/itemCount"
+        android:layout_width="@dimen/size25"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/body3Size"
+        android:padding="@dimen/size5"
+        app:layout_constraintBottom_toBottomOf="@+id/minusButton"
+        app:layout_constraintEnd_toStartOf="@+id/plusButton"
+        app:layout_constraintTop_toTopOf="@+id/minusButton" />
+
+    <Button
+        android:id="@+id/plusButton"
+        android:layout_width="@dimen/size20"
+        android:layout_height="@dimen/size20"
+        android:backgroundTint="@color/lightwhite"
+        android:text="@string/plus"
+        android:layout_marginEnd="@dimen/size5"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/itemCount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemCount" />
+</androidx.constraintlayout.widget.ConstraintLayout>

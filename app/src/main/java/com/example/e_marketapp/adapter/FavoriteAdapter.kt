@@ -24,8 +24,7 @@ class FavoriteAdapter(
         notifyDataSetChanged()
     }
 
-    inner class FavoriteViewHolder(val binding: FavoriteItemRowBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class FavoriteViewHolder(val binding: FavoriteItemRowBinding) : RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(marketEntity: MarketEntity) {
             binding.apply {

@@ -22,9 +22,70 @@
         android:id="@+id/basketRecyclerView"
         android:layout_width="@dimen/size0"
         android:layout_height="@dimen/size0"
-        android:layout_margin="@dimen/size10"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/totalText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customToolBar" />
+
+    <TextView
+        android:id="@+id/totalText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/total"
+        android:textColor="@color/_2A59FE"
+        android:textSize="@dimen/body1Size"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/totalPrice"
+        app:layout_constraintStart_toStartOf="@+id/totalPrice" />
+
+    <TextView
+        android:id="@+id/totalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="123123123$"
+        android:layout_marginStart="@dimen/size5"
+        android:layout_marginBottom="@dimen/size5"
+        android:textColor="@color/black"
+        android:visibility="invisible"
+        android:textSize="@dimen/body2Size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.example.e_marketapp.component.CustomContinueButton
+        android:id="@+id/completeBasket"
+        android:layout_width="@dimen/size0"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size5"
+        android:background="@drawable/custom_continue_button_low_radius"
+        app:buttonText="@string/complete"
+        android:visibility="invisible"
+        app:buttonTextColor="@color/white"
+        android:layout_marginStart="@dimen/size50"
+        app:layout_constraintBottom_toBottomOf="@+id/totalPrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/totalPrice" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/basketRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/basketRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/basketRecyclerView"
+        app:layout_constraintTop_toTopOf="@+id/basketRecyclerView" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="@dimen/body1Size"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/basketRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/basketRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/basketRecyclerView"
+        app:layout_constraintTop_toTopOf="@+id/basketRecyclerView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
