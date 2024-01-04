@@ -107,7 +107,7 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
                 }
 
                 is Response.Error -> {
-                    _getAllData.value=MarketDbState(error = it.message.toString(), isDeleted = false)
+                    _getAllData.value=MarketDbState(error = it.message.toString(), isDeleted = false, loading = false)
                 }
 
                 else -> {

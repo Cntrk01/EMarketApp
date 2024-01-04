@@ -34,7 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     private var scrollingUp = true
     private var newCheckState = 1
     private lateinit var homeAdapter: HomeAdapter
-    var isFirstLoad=true
+    private var isFirstLoad=true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -174,9 +174,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             })
         }
     }
+
     override fun onResume() {
         super.onResume()
         observeMarketData()
     }
-
 }

@@ -10,5 +10,6 @@
     <string name="search_here">Search Here</string>
     <string name="filters">Filters:</string>
     <string name="query_not_found">Query Not Found ...</string>
+    <string name="not_found_data_in_storage">Not Found Data In Storage...</string>
 
 </resources>
