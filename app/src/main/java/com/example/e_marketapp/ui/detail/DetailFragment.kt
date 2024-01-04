@@ -35,17 +35,24 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         marketDbViewModel.getMealClickedItem(args.itemArgs.id)
         marketDbViewModel.viewModelScope.launch {
             marketDbViewModel.getAllData.collectLatest {
-                if (it.isDeleted==true){
-                    binding.marketItemStar.visibility=View.INVISIBLE
-                    binding.marketItemUnStar.visibility=View.VISIBLE
-                }else if (it.isDeleted==false){
+                when (it.isDeleted) {
+                    true -> {
+                        binding.marketItemStar.visibility=View.INVISIBLE
+                        binding.marketItemUnStar.visibility=View.VISIBLE
+                    }
+                    false -> {
+                        binding.marketItemStar.visibility=View.VISIBLE
+                        binding.marketItemUnStar.visibility=View.INVISIBLE
+                    }
+                    else -> {
+                        binding.marketItemStar.visibility=View.INVISIBLE
+                        binding.marketItemUnStar.visibility=View.VISIBLE
+                    }
+                }
+
+                if (it.marketDataWithId != null) {
                     binding.marketItemStar.visibility=View.VISIBLE
                     binding.marketItemUnStar.visibility=View.INVISIBLE
-                }else{
-                    binding.marketItemStar.visibility=View.INVISIBLE
-                    binding.marketItemUnStar.visibility=View.VISIBLE
-                }
-                if (it.marketDataWithId != null) {
                     it.marketDataWithId.apply {
                       setArgsData(toolBarText = name, imageUrl = image, title = name, description = description, price = price,)
                     }
