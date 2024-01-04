@@ -1,6 +1,7 @@
 package com.example.e_marketapp.model
 
 import android.os.Parcelable
+import androidx.room.Entity
 
 @kotlinx.parcelize.Parcelize
 data class BaseModelItem(

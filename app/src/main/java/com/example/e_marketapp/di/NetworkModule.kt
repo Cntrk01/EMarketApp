@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object Module {
+object NetworkModule {
 
     @Provides
     @Singleton
@@ -35,7 +35,6 @@ object Module {
             .build()
     }
 
-
     @Provides
     @Singleton
     fun provideMovieApi(okHttpClient: OkHttpClient) : MarketApi {
@@ -45,5 +44,4 @@ object Module {
             .build()
             .create(MarketApi::class.java)
     }
-
 }
