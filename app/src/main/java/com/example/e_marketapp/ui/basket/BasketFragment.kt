@@ -1,5 +1,6 @@
 package com.example.e_marketapp.ui.basket
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -11,6 +12,7 @@ import com.example.e_marketapp.databinding.FragmentBasketBinding
 import com.example.e_marketapp.states.BasketState
 import com.example.e_marketapp.util.BaseFragment
 import com.example.e_marketapp.viewmodel.MarketDbViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,6 +29,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
         observeData()
     }
     //şuan sadece anasayfadaki addtocard butonu çalışıyor.
+    @SuppressLint("NotifyDataSetChanged")
     private fun initAdapter(){
         basketAdapter= BasketAdapter(
             plusClick = {
@@ -34,8 +37,9 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
             },
             minusClick = {
                 marketDbViewModel.deleteBasketItem(it)
-            }
+            },
         )
+        basketAdapter.notifyDataSetChanged()
         binding.basketRecyclerView.adapter=basketAdapter
         binding.basketRecyclerView.layoutManager=LinearLayoutManager(requireContext())
     }
@@ -66,6 +70,8 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
                          else{
                              progressBar.visibility=View.INVISIBLE
                              errorText.visibility=View.VISIBLE
+                             basketRecyclerView.visibility=View.INVISIBLE
+                             setTotalPrice(it)
                              errorText.text=getString(R.string.no_items_in_basket)
                         }
                     }
@@ -74,16 +80,14 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setTotalPrice(it: BasketState){
         basketAdapter.setTotalPriceListener(object  : BasketAdapter.TotalPriceListener{
             override fun onTotalPriceUpdated(totalPrice: Double) {
                 binding.totalPrice.text= totalPrice.toString()
-                println(totalPrice)
             }
         })
         it.basketData?.let { it1 -> basketAdapter.setBasketData(it1) }
         basketAdapter.notifyDataSetChanged()
     }
-
-
 }

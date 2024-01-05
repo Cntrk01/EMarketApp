@@ -1,6 +1,7 @@
 package com.example.e_marketapp.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -34,4 +35,7 @@ interface MarketDao {
 
     @Query("SELECT * FROM basket WHERE productId = :productId LIMIT 1")
     suspend fun getBasketItem(productId: String): MarketBasketEntity?
+
+    @Query("DELETE FROM basket WHERE basket.productId= :deleteItem")
+    suspend fun deleteProduct(deleteItem:String)
 }
