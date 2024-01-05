@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.home, R.id.basket, R.id.favorite,R.id.detailFragment -> {
+                    window.statusBarColor = ContextCompat.getColor(this,R.color._2A59FE)
                     bottomNavigationView.visibility = View.VISIBLE
                 }
                 else -> {

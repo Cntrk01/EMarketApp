@@ -22,7 +22,7 @@ class MarketViewModel @Inject constructor(private val marketUseCase: MarketUseCa
         getMarketData()
     }
 
-    private fun getMarketData() = viewModelScope.launch {
+    fun getMarketData() = viewModelScope.launch {
         marketUseCase.getMarketData().collect { response ->
             when (response) {
                 is Response.Loading -> {
@@ -35,7 +35,7 @@ class MarketViewModel @Inject constructor(private val marketUseCase: MarketUseCa
                         it.copy(error = response.message, isLoading = false, marketModel = null)
                     }
                 }
-                is Response.Success -> {
+                else->{
                     _marketDataState.update {
                         it.copy(marketModel = response.data,isLoading = false, error = "")
                     }

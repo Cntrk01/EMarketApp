@@ -55,94 +55,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <CheckBox
-                android:id="@+id/oldToNewCheckBox"
-                android:layout_width="@dimen/size15"
-                android:layout_height="@dimen/size15"
-                android:layout_marginStart="@dimen/size5"
-                android:layout_marginTop="@dimen/size5"
-                android:background="@drawable/checkbox_selector"
-                app:buttonTint="@android:color/transparent"
-                app:layout_constraintStart_toStartOf="@+id/sortByText"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sortByRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size70"
+                android:layout_margin="@dimen/size10"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sortByText" />
-
-            <TextView
-                android:id="@+id/oldToNewText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size5"
-                android:text="@string/old_to_new"
-                android:textColor="@color/black"
-                android:textSize="@dimen/body1Size"
-                app:layout_constraintBottom_toTopOf="@+id/newToOldCheckBox"
-                app:layout_constraintStart_toEndOf="@+id/oldToNewCheckBox"
-                app:layout_constraintTop_toBottomOf="@+id/sortByText" />
-
-            <CheckBox
-                android:id="@+id/newToOldCheckBox"
-                android:layout_width="@dimen/size15"
-                android:layout_height="@dimen/size15"
-                android:layout_marginTop="@dimen/size3"
-                android:background="@drawable/checkbox_selector"
-                app:buttonTint="@android:color/transparent"
-                app:layout_constraintStart_toStartOf="@+id/oldToNewCheckBox"
-                app:layout_constraintTop_toBottomOf="@+id/oldToNewCheckBox" />
-
-            <TextView
-                android:id="@+id/newToOldText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size5"
-                android:text="@string/new_to_old"
-                android:textColor="@color/black"
-                android:textSize="@dimen/body1Size"
-                app:layout_constraintBottom_toTopOf="@+id/priceHighToLowCheckBox"
-                app:layout_constraintStart_toEndOf="@+id/newToOldCheckBox"
-                app:layout_constraintTop_toBottomOf="@+id/oldToNewCheckBox" />
-
-            <CheckBox
-                android:id="@+id/priceHighToLowCheckBox"
-                android:layout_width="@dimen/size15"
-                android:layout_height="@dimen/size15"
-                android:layout_marginTop="@dimen/size3"
-                android:background="@drawable/checkbox_selector"
-                app:buttonTint="@android:color/transparent"
-                app:layout_constraintStart_toStartOf="@+id/newToOldCheckBox"
-                app:layout_constraintTop_toBottomOf="@+id/newToOldCheckBox" />
-
-            <TextView
-                android:id="@+id/priceHighToLowText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size5"
-                android:text="Price hight to low"
-                android:textColor="@color/black"
-                android:textSize="@dimen/body1Size"
-                app:layout_constraintBottom_toBottomOf="@+id/priceHighToLowCheckBox"
-                app:layout_constraintStart_toEndOf="@+id/priceHighToLowCheckBox"
-                app:layout_constraintTop_toBottomOf="@+id/newToOldCheckBox" />
-
-            <CheckBox
-                android:id="@+id/priceLowToHighCheckBox"
-                android:layout_width="@dimen/size15"
-                android:layout_height="@dimen/size15"
-                android:layout_marginTop="@dimen/size3"
-                android:background="@drawable/checkbox_selector"
-                app:buttonTint="@android:color/transparent"
-                app:layout_constraintStart_toStartOf="@+id/priceHighToLowCheckBox"
-                app:layout_constraintTop_toBottomOf="@+id/priceHighToLowCheckBox" />
-
-            <TextView
-                android:id="@+id/priceLowToHighText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size5"
-                android:text="Price low to high"
-                android:textColor="@color/black"
-                android:textSize="@dimen/body1Size"
-                app:layout_constraintBottom_toBottomOf="@+id/priceLowToHighCheckBox"
-                app:layout_constraintStart_toEndOf="@+id/priceLowToHighCheckBox"
-                app:layout_constraintTop_toBottomOf="@+id/priceHighToLowCheckBox" />
 
             <View
                 android:id="@+id/view2"
@@ -154,7 +73,7 @@
                 android:background="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/priceLowToHighCheckBox" />
+                app:layout_constraintTop_toBottomOf="@+id/sortByRecyclerView" />
 
             <TextView
                 android:id="@+id/brandText"

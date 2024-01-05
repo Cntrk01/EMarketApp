@@ -70,7 +70,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
                              progressBar.visibility=View.INVISIBLE
                              errorText.visibility=View.VISIBLE
                              basketRecyclerView.visibility=View.INVISIBLE
-                             setTotalPrice(it)
+                             binding.totalPrice.text="0.0"
                              errorText.text=getString(R.string.no_items_in_basket)
                         }
                     }
@@ -84,6 +84,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
         basketAdapter.setTotalPriceListener(object  : BasketAdapter.TotalPriceListener{
             override fun onTotalPriceUpdated(totalPrice: Double) {
                 binding.totalPrice.text= totalPrice.toString()
+                println(totalPrice)
             }
         })
         it.basketData?.let { it1 -> basketAdapter.setBasketData(it1) }

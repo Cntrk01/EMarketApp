@@ -10,7 +10,6 @@ import com.example.e_marketapp.states.MarketDbState
 import com.example.e_marketapp.usecase.MarketDbUseCase
 import com.example.e_marketapp.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -19,11 +18,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketDbUseCase) :
-    ViewModel() {
-    var sortByText : String=""
-    var brandFilter : FilterModelItem = FilterModelItem("",false)
-    var modelFilter=FilterModelItem("",false)
+class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketDbUseCase) : ViewModel() {
+
+    var sortByText: String = ""
+    var brandFilter: FilterModelItem = FilterModelItem("",false)
+    var modelFilter: FilterModelItem = FilterModelItem("",false)
 
     private var _getAllData = MutableStateFlow(MarketDbState())
     val getAllData: StateFlow<MarketDbState> get() = _getAllData
@@ -31,10 +30,10 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
     private var _basketState = MutableStateFlow(BasketState())
     val basketState : StateFlow<BasketState> get() = _basketState
 
-
     init {
         getAllItems()
     }
+
 
     private fun getAllItems() = viewModelScope.launch {
         //burada channelFlow kullandım.Çünkü flow olarak return etmeye çalıştığımda datayı emit etmeye çalışıyor sonrasında

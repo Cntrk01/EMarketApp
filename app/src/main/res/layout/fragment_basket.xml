@@ -59,14 +59,14 @@
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/size5"
+        android:layout_marginStart="@dimen/size70"
         android:background="@drawable/custom_continue_button_low_radius"
-        app:buttonText="@string/complete"
         android:visibility="invisible"
+        app:buttonText="@string/complete"
         app:buttonTextColor="@color/white"
-        android:layout_marginStart="@dimen/size50"
         app:layout_constraintBottom_toBottomOf="@+id/totalPrice"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/totalPrice" />
+        app:layout_constraintStart_toEndOf="@+id/totalText" />
 
     <ProgressBar
         android:id="@+id/progressBar"

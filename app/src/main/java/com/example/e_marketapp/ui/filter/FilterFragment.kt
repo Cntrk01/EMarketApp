@@ -2,6 +2,7 @@ package com.example.e_marketapp.ui.filter
 
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckBox
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_marketapp.R
 import com.example.e_marketapp.adapter.filter.BrandAdapter
 import com.example.e_marketapp.adapter.filter.ModelAdapter
+import com.example.e_marketapp.adapter.filter.SortByAdapter
 import com.example.e_marketapp.databinding.FragmentFilterBinding
 import com.example.e_marketapp.model.FilterModelItem
 import com.example.e_marketapp.util.BaseFragment
@@ -18,13 +20,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding::inflate) {
-    private var oldCheckBoxValue = false
-    private var newToOldCheckBoxValue = false
-    private var priceHightToLowCheckBox = false
-    private var priceLowToHightCheckBox = false
+    private var sortByItemCheck = false
 
     private lateinit var brandAdapter: BrandAdapter
     private lateinit var modelAdapter: ModelAdapter
+    private lateinit var sortByAdapter: SortByAdapter
 
     private val brandFilter = FilterModelItem("", false)
     private val modelFilter = FilterModelItem("", false)
@@ -33,65 +33,49 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        sortByCheckBox()
         brandAdapter()
         modelAdapter()
         primaryButtonClick()
+        sortByAdapter()
+        binding.customToolBar2.navigationIconSetOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun primaryButtonClick() {
         binding.primaryButton.setOnClickListener {
-            val sortText = when {
-                oldCheckBoxValue -> getString(R.string.old_to_new)
-                newToOldCheckBoxValue -> getString(R.string.new_to_old)
-                priceHightToLowCheckBox -> getString(R.string.price_high_to_low)
-                priceLowToHightCheckBox -> getString(R.string.price_low_to_high)
-                else -> ""
+            val sortText = if (sortByItemCheck){
+                marketDbViewModel.sortByText
+            } else {
+                marketDbViewModel.sortByText==""
             }
-            val brandFilterText =
-                brandFilter.title.takeIf { it.isNotEmpty() && brandFilter.checkBoxValue }
-            val modelFilterText =
-                modelFilter.title.takeIf { it.isNotEmpty() && modelFilter.checkBoxValue }
+            val brandFilterText = brandFilter.title.takeIf { it.isNotEmpty() && brandFilter.checkBoxValue }
+            val modelFilterText = modelFilter.title.takeIf { it.isNotEmpty() && modelFilter.checkBoxValue }
 
-            if (sortText.isNotEmpty() || brandFilterText != null || modelFilterText != null) {
-                marketDbViewModel.sortByText = sortText
-                marketDbViewModel.brandFilter =
-                    FilterModelItem(brandFilterText ?: "", brandFilter.checkBoxValue)
-                marketDbViewModel.modelFilter =
-                    FilterModelItem(modelFilterText ?: "", modelFilter.checkBoxValue)
-
+            if (sortText.toString().isNotBlank() || brandFilterText != null || modelFilterText != null) {
+                marketDbViewModel.sortByText = sortText.toString()
+                marketDbViewModel.brandFilter = FilterModelItem(brandFilterText ?: "", brandFilter.checkBoxValue)
+                marketDbViewModel.modelFilter = FilterModelItem(modelFilterText ?: "", modelFilter.checkBoxValue)
                 val action = FilterFragmentDirections.actionFilterFragmentToHome()
                 findNavController().navigate(action)
-
             } else {
-                toastMessage(
-                    requireContext(),
-                    getString(R.string.please_select_at_least_one_option)
-                )
+                toastMessage(requireContext(), getString(R.string.please_select_at_least_one_option))
             }
+            println(marketDbViewModel.sortByText)
         }
     }
 
-    private fun sortByCheckBox() {
-        binding.apply {
-            oldToNewCheckBox.setOnClickListener {
-                oldCheckBoxValue = !oldCheckBoxValue
-                oldToNewCheckBox.isSelected = oldCheckBoxValue
-            }
-            newToOldCheckBox.setOnClickListener {
-                newToOldCheckBoxValue = !newToOldCheckBoxValue
-                newToOldCheckBox.isSelected = newToOldCheckBoxValue
-            }
-            priceHighToLowCheckBox.setOnClickListener {
-                priceHightToLowCheckBox = !priceHightToLowCheckBox
-                priceHighToLowCheckBox.isSelected = priceHightToLowCheckBox
-            }
-            priceLowToHighCheckBox.setOnClickListener {
-                priceLowToHightCheckBox = !priceLowToHightCheckBox
-                priceLowToHighCheckBox.isSelected = priceLowToHightCheckBox
-            }
-        }
-    }
+
+   private fun sortByAdapter(){
+       sortByAdapter=SortByAdapter(selectedItem = {
+           marketDbViewModel.sortByText=it.title
+           sortByItemCheck=it.checkBoxValue
+       })
+       binding.sortByRecyclerView.adapter=sortByAdapter
+       binding.sortByRecyclerView.layoutManager=LinearLayoutManager(requireContext())
+       sortByAdapter.setModelList(sortList())
+   }
+
 
     private fun brandAdapter() {
         brandAdapter = BrandAdapter(selectedItem = {
@@ -163,7 +147,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
         })
     }
 
-    //brand değişkenine göre filtrelenecek
     private fun brandList(): List<FilterModelItem> {
         return listOf(
             FilterModelItem("Lamborghini", false),
@@ -189,6 +172,15 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
             FilterModelItem("Corvette", false),
             FilterModelItem("Colorado", false),
             FilterModelItem("911", false),
+        )
+    }
+
+    private fun sortList() : List<FilterModelItem>{
+        return listOf(
+            FilterModelItem(getString(R.string.old_to_new), false),
+            FilterModelItem(getString(R.string.new_to_old), false),
+            FilterModelItem(getString(R.string.price_high_to_low), false),
+            FilterModelItem(getString(R.string.price_low_to_high), false)
         )
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
     private val marketViewModel: MarketViewModel by viewModels()
-    private val marketDbViewModel: MarketDbViewModel by viewModels()
+    private val marketDbViewModel: MarketDbViewModel by activityViewModels()
     private var marketSize = 4
     private var marketList = ArrayList<BaseModelItem>()
 
@@ -39,9 +40,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initAdapter()
         observeMarketData()
         searchMarketData()
-        initAdapter()
 
         binding.selectFilterButton.clickWithDebounce {
             val action=HomeFragmentDirections.actionHomeToFilterFragment()
@@ -58,17 +59,71 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     } else if (it.error.toString().isNotEmpty()) {
                         homeErrorText.visibility = View.VISIBLE
                         homeProgressBar.visibility = View.GONE
+
                         homeErrorText.text = it.error.toString()
+                        tryAgainButton.visibility=View.VISIBLE
+
+                        tryAgainButton.clickWithDebounce {
+                            marketViewModel.getMarketData()
+                            homeErrorText.visibility = View.GONE
+                            tryAgainButton.visibility=View.GONE
+                        }
                     } else {
                         homeErrorText.visibility = View.GONE
                         homeProgressBar.visibility = View.GONE
+                        tryAgainButton.visibility=View.GONE
                         homeRecyclerView.visibility = View.VISIBLE
+
                         it.marketModel?.let { newMarketData ->
-                            if (isFirstLoad || scrollingUp) {
-                                marketList.clear()
-                                marketList.addAll(newMarketData)
-                                homeAdapter.addData(marketList.take(marketSize))
-                                isFirstLoad = false
+                            if ((marketDbViewModel.brandFilter.title.isNotEmpty() || marketDbViewModel.modelFilter.title.isNotEmpty()) && (isFirstLoad || scrollingUp)) {
+                                val filteredList = newMarketData.filter { item ->
+                                    (marketDbViewModel.brandFilter.title.isEmpty() || item.brand == marketDbViewModel.brandFilter.title) &&
+                                            (marketDbViewModel.modelFilter.title.isEmpty() || item.model == marketDbViewModel.modelFilter.title)
+                                }
+
+                                val sortedList = when (marketDbViewModel.sortByText) {
+                                    getString(R.string.old_to_new) -> filteredList.sortedBy { it.createdAt }
+                                    getString(R.string.new_to_old) -> filteredList.sortedByDescending { it.createdAt }
+                                    getString(R.string.price_high_to_low) -> filteredList.sortedByDescending { it.price }
+                                    getString(R.string.price_low_to_high) -> filteredList.sortedBy { it.price }
+                                    else -> filteredList.sortedByDescending { it.createdAt }
+                                }
+
+                                if (sortedList.isNotEmpty()) {
+                                    marketList.clear()
+                                    marketList.addAll(sortedList)
+                                    homeAdapter.addData(marketList.take(marketSize))
+                                } else {
+                                    homeRecyclerView.visibility=View.GONE
+                                    homeErrorText.visibility=View.VISIBLE
+                                    homeErrorText.text=getText(R.string.query_not_found)
+                                   // marketList.clear()
+                                    //marketList.addAll(newMarketData)
+                                    //homeAdapter.addData(marketList.take(marketSize))
+                                    //isFirstLoad = false
+                                }
+                            } else if (isFirstLoad || scrollingUp) {
+                                val sortedList = when (marketDbViewModel.sortByText) {
+                                    getString(R.string.old_to_new) -> newMarketData.sortedBy { it.createdAt }
+                                    getString(R.string.new_to_old) -> newMarketData.sortedByDescending { it.createdAt }
+                                    getString(R.string.price_high_to_low) -> newMarketData.sortedByDescending { it.price }
+                                    getString(R.string.price_low_to_high) -> newMarketData.sortedBy { it.price }
+                                    else -> newMarketData.sortedByDescending { it.createdAt }
+                                }
+
+                                if (sortedList.isNotEmpty()) {
+                                    marketList.clear()
+                                    marketList.addAll(sortedList)
+                                    homeAdapter.addData(marketList.take(marketSize))
+                                } else {
+                                    homeRecyclerView.visibility=View.GONE
+                                    homeErrorText.visibility=View.VISIBLE
+                                    homeErrorText.text=getText(R.string.query_not_found)
+                                    //marketList.clear()
+                                    //marketList.addAll(newMarketData)
+                                    //homeAdapter.addData(marketList.take(marketSize))
+                                    //isFirstLoad = false
+                                }
                             }
                         }
                     }
@@ -196,4 +251,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         super.onResume()
         observeMarketData()
     }
+
 }
