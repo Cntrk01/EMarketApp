@@ -1,8 +1,10 @@
 package com.example.e_marketapp.util
 
+import android.content.Context
 import android.os.SystemClock
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -19,7 +21,7 @@ fun ImageView.urlToImageGlide(url: String){
         .into(this)
 }
 
-fun View.clickWithDebounce(debounceTime: Long = 700L, action: (View) -> Unit) {
+fun View.clickWithDebounce(debounceTime: Long = 1000L, action: (View) -> Unit) {
     this.setOnClickListener(object : View.OnClickListener {
         private var lastClickTime: Long = 0
         override fun onClick(v: View) {
@@ -28,5 +30,9 @@ fun View.clickWithDebounce(debounceTime: Long = 700L, action: (View) -> Unit) {
             lastClickTime = SystemClock.elapsedRealtime()
         }
     })
+}
+
+fun toastMessage(context:Context,message:String){
+    Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
 }
 

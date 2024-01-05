@@ -3,10 +3,8 @@ package com.example.e_marketapp.ui.home
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +16,7 @@ import com.example.e_marketapp.local.MarketBasketEntity
 import com.example.e_marketapp.local.MarketEntity
 import com.example.e_marketapp.model.BaseModelItem
 import com.example.e_marketapp.util.BaseFragment
+import com.example.e_marketapp.util.toastMessage
 import com.example.e_marketapp.viewmodel.MarketDbViewModel
 import com.example.e_marketapp.viewmodel.MarketViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -113,6 +112,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                     singleItemPrice = it.price
                 )
             )
+            toastMessage(requireContext(), getString(R.string.item_added_basket))
         })
         homeAdapter.notifyDataSetChanged()
         binding.homeRecyclerView.adapter = homeAdapter

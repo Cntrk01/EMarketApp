@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:padding="@dimen/size10"
     app:cardBackgroundColor="@color/lightwhite"
@@ -51,23 +50,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/itemImage" />
 
-    <ImageView
-        android:id="@+id/marketItemUnStar"
-        android:layout_width="@dimen/size15"
-        android:layout_height="@dimen/size15"
-        android:background="@drawable/unstar"
-        android:elevation="@dimen/size5"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/marketItemStar"
-        app:layout_constraintEnd_toEndOf="@+id/marketItemStar"
-        app:layout_constraintStart_toStartOf="@+id/marketItemStar"
-        app:layout_constraintTop_toTopOf="@+id/itemImage" />
-
     <com.example.e_marketapp.component.CustomContinueButton
         android:id="@+id/itemAddCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:background="@drawable/custom_continue_button"
         app:buttonText="@string/add_to_card"
         app:buttonTextColor="@color/white"
