@@ -16,5 +16,8 @@
     <string name="no_items_in_basket">No Items In Basket...</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
+    <string name="item_added_basket">Item Added Basket</string>
+    <string name="removed_from_favorites">Removed From Favorites..</string>
+    <string name="added_to_favorites">Added To Favorites</string>
 
 </resources>

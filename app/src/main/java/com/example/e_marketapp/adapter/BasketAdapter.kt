@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.e_marketapp.databinding.BasketItemRowBinding
 import com.example.e_marketapp.local.MarketBasketEntity
+import com.example.e_marketapp.util.clickWithDebounce
 
 class BasketAdapter(
     private val plusClick : ((MarketBasketEntity)->Unit)?=null,
@@ -43,7 +44,7 @@ class BasketAdapter(
             itemPrice.text = itemPosition.productPrice.toString()
             itemCount.text = itemPosition.productCount.toString()
 
-            minusButton.setOnClickListener {
+            minusButton.clickWithDebounce {
                 if (itemPosition.productCount > 0) {
                     itemPosition.productCount -= 1
                     itemCount.text = itemPosition.productCount.toString()
@@ -53,14 +54,12 @@ class BasketAdapter(
                     Toast.makeText(holder.itemView.context, "Please Add Item", Toast.LENGTH_SHORT).show()
                 }
             }
-
-            plusButton.setOnClickListener {
+            plusButton.clickWithDebounce {
                 itemPosition.productCount +=1
                 itemCount.text = (itemPosition.productCount).toString()
                 plusClick?.invoke(itemPosition)
             }
         }
-
     }
 
     override fun getItemCount(): Int {

@@ -12,7 +12,7 @@ import com.example.e_marketapp.util.urlToImageGlide
 
 @SuppressLint("NotifyDataSetChanged")
 class FavoriteAdapter(
-    private val addToCardClick: (() -> Unit)? = null,
+    private val addToCardClick: ((BaseModelItem) -> Unit)? = null,
     private val isStarred: ((itemId: String) -> Unit)? = null,
     private val clickItem : ((BaseModelItem)->Unit) ?=null
 ) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
@@ -48,10 +48,17 @@ class FavoriteAdapter(
                 marketItemStar.setOnClickListener {
                     isStarred?.invoke(marketEntity.marketId)
                     marketItemStar.visibility = View.INVISIBLE
-                    marketItemUnStar.visibility = View.VISIBLE
                 }
-                marketItemUnStar.setOnClickListener {
-
+                itemAddCard.setOnClickListener {
+                    addToCardClick?.invoke(BaseModelItem(
+                        brand = marketEntity.brand,
+                        createdAt=marketEntity.createdAt,
+                        description=marketEntity.description,
+                        id=marketEntity.marketId,
+                        image=marketEntity.image,
+                        model=marketEntity.model,
+                        name=marketEntity.name,
+                        price = marketEntity.price))
                 }
             }
         }

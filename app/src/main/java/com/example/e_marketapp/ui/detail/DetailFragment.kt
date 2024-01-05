@@ -9,10 +9,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.example.e_marketapp.R
 import com.example.e_marketapp.databinding.FragmentDetailBinding
+import com.example.e_marketapp.local.MarketBasketEntity
 import com.example.e_marketapp.local.MarketEntity
 import com.example.e_marketapp.util.BaseFragment
 import com.example.e_marketapp.util.clickWithDebounce
 import com.example.e_marketapp.util.popBackStack
+import com.example.e_marketapp.util.toastMessage
 import com.example.e_marketapp.util.urlToImageGlide
 import com.example.e_marketapp.viewmodel.MarketDbViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -98,10 +100,12 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 clickAddToCardButton()
             }
             marketItemStar.setOnClickListener {
+                toastMessage(requireContext(), getString(R.string.removed_from_favorites))
                 marketDbViewModel.deleteMarketItem(args.itemArgs.id)
             }
 
             marketItemUnStar.setOnClickListener {
+                toastMessage(requireContext(), getString(R.string.added_to_favorites))
                 args.itemArgs.apply {
                     marketDbViewModel.addMarketItem(
                         MarketEntity(
@@ -121,6 +125,15 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     }
 
     private fun clickAddToCardButton() {
-
+        args.itemArgs.apply {
+            marketDbViewModel.addBasketItem(basketEntity = MarketBasketEntity(
+                productId =id,
+                productPrice = price.toDouble(),
+                singleItemPrice = price,
+                productName = name,
+                productCount = 1
+            ))
+        }
+        toastMessage(requireContext(), getString(R.string.item_added_basket))
     }
 }
