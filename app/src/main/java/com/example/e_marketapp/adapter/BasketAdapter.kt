@@ -22,7 +22,6 @@ class BasketAdapter(
     fun setBasketData(list: List<MarketBasketEntity>) {
         this.favoriteList = list
         notifyDataSetChanged()
-        updateTotalPrice()
     }
 
     inner class BasketViewHolder(val binding: BasketItemRowBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -41,7 +40,6 @@ class BasketAdapter(
                 itemPosition.productCount -= 1
                 binding.itemCount.text = itemPosition.productCount.toString()
                 minusClick?.invoke(itemPosition)
-                updateTotalPrice()
             } else {
                 Toast.makeText(binding.root.context,itemView.context.getString(R.string.please_add_item), Toast.LENGTH_SHORT).show()
             }
@@ -52,7 +50,6 @@ class BasketAdapter(
             itemPosition.productCount += 1
             binding.itemCount.text = itemPosition.productCount.toString()
             plusClick?.invoke(itemPosition)
-            updateTotalPrice()
         }
     }
 
@@ -62,7 +59,13 @@ class BasketAdapter(
     }
 
     override fun onBindViewHolder(holder: BasketViewHolder, position: Int) {
+        var totalPrice=0.0
         val itemPosition = favoriteList[position]
+        for (item in favoriteList) {
+            totalPrice += item.productPrice
+        }
+
+        totalPriceListener?.onTotalPriceUpdated(totalPrice = totalPrice)
         holder.binding.apply {
             itemName.text = itemPosition.productName
             itemPrice.text = itemPosition.productPrice.toString()
@@ -76,11 +79,6 @@ class BasketAdapter(
 
     interface TotalPriceListener {
         fun onTotalPriceUpdated(totalPrice: Double)
-    }
-
-    private fun updateTotalPrice() {
-        val totalPrice = favoriteList.sumByDouble { it.productPrice * it.productCount }
-        totalPriceListener?.onTotalPriceUpdated(totalPrice)
     }
 
     fun setTotalPriceListener(listener: TotalPriceListener) {

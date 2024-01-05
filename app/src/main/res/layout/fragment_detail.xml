@@ -120,13 +120,12 @@
         android:id="@+id/addToCartButton"
         android:layout_width="@dimen/size0"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/size50"
         android:layout_marginBottom="@dimen/size10"
         android:background="@drawable/custom_continue_button_low_radius"
         app:buttonText="@string/add_to_card"
+        android:layout_marginStart="@dimen/size70"
         app:buttonTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/scrollView2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/detailPriceAmount" />
+        app:layout_constraintStart_toEndOf="@+id/detailPriceText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

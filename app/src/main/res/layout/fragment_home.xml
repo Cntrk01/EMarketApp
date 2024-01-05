@@ -94,10 +94,22 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="@dimen/body1Size"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/filterText" />
+
+    <com.example.e_marketapp.component.CustomContinueButton
+        android:id="@+id/tryAgainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_continue_button_low_radius"
+        app:buttonText="@string/try_again"
+        app:buttonTextColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/home_error_text"
+        app:layout_constraintStart_toStartOf="@+id/home_error_text"
+        app:layout_constraintTop_toBottomOf="@+id/home_error_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>
