@@ -12,7 +12,6 @@ import com.example.e_marketapp.databinding.FragmentBasketBinding
 import com.example.e_marketapp.states.BasketState
 import com.example.e_marketapp.util.BaseFragment
 import com.example.e_marketapp.viewmodel.MarketDbViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

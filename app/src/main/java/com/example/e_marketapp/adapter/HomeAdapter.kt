@@ -14,26 +14,44 @@ import com.example.e_marketapp.util.urlToImageGlide
 class HomeAdapter(
     private val clickItemData: ((BaseModelItem) -> Unit)? = null,
     private val clickFavorite: ((BaseModelItem, isStarred: Boolean) -> Unit)? = null,
-    private val addToCardClick : ((BaseModelItem) -> Unit)? = null,
+    private val addToCardClick: ((BaseModelItem) -> Unit)? = null,
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
 
     private var marketModelList = emptyList<BaseModelItem>()
-    private var marketCheckList = ArrayList<MarketEntity>()
+    private var marketCheckList = mutableSetOf<MarketEntity>()
 
     fun addData(newData: List<BaseModelItem>) {
-        //this.marketModelList = emptyList()
         this.marketModelList = newData
         notifyDataSetChanged()
         println("ADAPTER LİST SİZE : ${marketModelList.size}")
     }
 
-    fun checkList(checkList: ArrayList<MarketEntity>) {
-        this.marketCheckList = checkList
+    fun checkList(checkList: List<MarketEntity>) {
+        this.marketCheckList = checkList.toMutableSet()
         notifyDataSetChanged()
     }
 
     inner class ViewHolder(val binding: HomeItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            itemView.setOnClickListener {
+                clickItemData?.invoke(marketModelList[adapterPosition])
+            }
+
+            binding.addToCardItem.setOnClickListener {
+                addToCardClick?.invoke(marketModelList[adapterPosition])
+            }
+
+            binding.marketItemStar.setOnClickListener {
+                handleStarClick(isStarred(adapterPosition))
+            }
+
+            binding.marketItemUnStar.setOnClickListener {
+                handleStarClick(!isStarred(adapterPosition))
+            }
+        }
+
         @SuppressLint("SetTextI18n")
         fun bind(marketItem: BaseModelItem) {
             binding.apply {
@@ -41,45 +59,35 @@ class HomeAdapter(
                 marketItemPrice.text = marketItem.price + "$"
                 marketItemName.text = marketItem.name
 
-                itemView.setOnClickListener {
-                    clickItemData?.invoke(marketItem)
-                }
-
-                addToCardItem.setOnClickListener {
-                    addToCardClick?.invoke(marketItem)
-                }
-
-                marketItemStar.setOnClickListener {
-                    clickFavorite?.invoke(marketItem, false)
-
-                    val removedItem = marketCheckList.find { it.marketId == marketItem.id }
-                    removedItem?.let {
-                        marketCheckList.remove(it)
-
-                    }
-                    binding.marketItemUnStar.visibility = View.VISIBLE
-                    binding.marketItemStar.visibility = View.INVISIBLE
-                }
-                marketItemUnStar.setOnClickListener {
-                    val removedItem = marketCheckList.find { it.marketId == marketItem.id }
-                    removedItem?.let {
-                        marketCheckList.add(it)
-
-                    }
-                    clickFavorite?.invoke(marketItem, true)
-                    binding.marketItemStar.visibility = View.VISIBLE
-                    binding.marketItemUnStar.visibility = View.INVISIBLE
-                }
-
-                if (isStarred(marketItem.id)) {
-                    binding.marketItemStar.visibility = View.VISIBLE
-                    binding.marketItemUnStar.visibility = View.INVISIBLE
-                } else {
-                    binding.marketItemUnStar.visibility = View.VISIBLE
-                    binding.marketItemStar.visibility = View.INVISIBLE
-                }
-
+                updateStarVisibility(isStarred(adapterPosition))
             }
+        }
+
+        private fun handleStarClick(isStarred: Boolean) {
+            val marketItem = marketModelList[adapterPosition]
+            clickFavorite?.invoke(marketItem, isStarred)
+
+            if (isStarred) {
+                marketCheckList.remove(findMarketEntityById(marketItem.id))
+            } else {
+                findMarketEntityById(marketItem.id)?.let { marketCheckList.add(it) }
+            }
+
+            updateStarVisibility(!isStarred)
+        }
+
+        private fun updateStarVisibility(isStarred: Boolean) {
+            binding.marketItemStar.visibility = if (isStarred) View.VISIBLE else View.INVISIBLE
+            binding.marketItemUnStar.visibility = if (isStarred) View.INVISIBLE else View.VISIBLE
+        }
+
+        private fun isStarred(position: Int): Boolean {
+            val marketItem = marketModelList[position]
+            return marketCheckList.any { it.marketId == marketItem.id }
+        }
+
+        private fun findMarketEntityById(id: String): MarketEntity? {
+            return marketCheckList.find { it.marketId == id }
         }
     }
 
@@ -87,16 +95,12 @@ class HomeAdapter(
         val inf = HomeItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(inf)
     }
-    
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(marketItem = marketModelList[position])
+        holder.bind(marketModelList[position])
     }
 
     override fun getItemCount(): Int {
         return marketModelList.size
-    }
-
-    private fun isStarred(id: String): Boolean {
-        return marketCheckList.any { it.marketId == id }
     }
 }
