@@ -108,12 +108,12 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
 
                 if (existingItem != null) {
                     val newCount = existingItem.productCount - 1
-                    if (newCount >= 0) {
+                    if (newCount >= 1) {
                         val totalPrice = basketEntity.singleItemPrice.toDouble() * newCount
                         dao.minusProductCount(basketEntity.productId, 1, totalPrice)
                         emit(Response.Success(Unit))
-                    } else {
-                        emit(Response.Error(message = "Item Size 0"))
+                    } else if (newCount==0){
+                        dao.deleteProduct(basketEntity.productId)
                     }
                 } else {
                     emit(Response.Error(message = "Item not found"))

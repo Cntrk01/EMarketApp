@@ -19,5 +19,6 @@
     <string name="item_added_basket">Item Added Basket</string>
     <string name="removed_from_favorites">Removed From Favorites..</string>
     <string name="added_to_favorites">Added To Favorites</string>
+    <string name="please_add_item">Please Add Item</string>
 
 </resources>
