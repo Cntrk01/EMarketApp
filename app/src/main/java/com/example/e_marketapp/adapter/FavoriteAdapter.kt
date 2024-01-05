@@ -14,7 +14,7 @@ import com.example.e_marketapp.util.urlToImageGlide
 class FavoriteAdapter(
     private val addToCardClick: ((BaseModelItem) -> Unit)? = null,
     private val isStarred: ((itemId: String) -> Unit)? = null,
-    private val clickItem : ((BaseModelItem)->Unit) ?=null
+    private val clickItem: ((BaseModelItem) -> Unit)? = null
 ) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
     private var favoriteList = emptyList<MarketEntity>()
@@ -24,57 +24,55 @@ class FavoriteAdapter(
         notifyDataSetChanged()
     }
 
-    inner class FavoriteViewHolder(val binding: FavoriteItemRowBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class FavoriteViewHolder(private val binding: FavoriteItemRowBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            itemView.setOnClickListener {
+                clickItem?.invoke(getItem(adapterPosition))
+            }
+
+            binding.marketItemStar.setOnClickListener {
+                isStarred?.invoke(getItem(adapterPosition).id)
+                binding.marketItemStar.visibility = View.INVISIBLE
+            }
+
+            binding.itemAddCard.setOnClickListener {
+                addToCardClick?.invoke(getItem(adapterPosition))
+            }
+        }
+
         @SuppressLint("SetTextI18n")
         fun bind(marketEntity: MarketEntity) {
             binding.apply {
                 itemImage.urlToImageGlide(marketEntity.image)
                 itemPrice.text = "Price : ${marketEntity.price}"
                 itemName.text = "Name : ${marketEntity.name}"
-
-                itemView.setOnClickListener {
-                    clickItem?.invoke(BaseModelItem(
-                        brand = marketEntity.brand,
-                        createdAt=marketEntity.createdAt,
-                        description=marketEntity.description,
-                        id=marketEntity.marketId,
-                        image=marketEntity.image,
-                        model=marketEntity.model,
-                        name=marketEntity.name,
-                        price = marketEntity.price
-                    ))
-                }
-
-                marketItemStar.setOnClickListener {
-                    isStarred?.invoke(marketEntity.marketId)
-                    marketItemStar.visibility = View.INVISIBLE
-                }
-                itemAddCard.setOnClickListener {
-                    addToCardClick?.invoke(BaseModelItem(
-                        brand = marketEntity.brand,
-                        createdAt=marketEntity.createdAt,
-                        description=marketEntity.description,
-                        id=marketEntity.marketId,
-                        image=marketEntity.image,
-                        model=marketEntity.model,
-                        name=marketEntity.name,
-                        price = marketEntity.price))
-                }
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
-        val inf = FavoriteItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return FavoriteViewHolder(inf)
+        val binding = FavoriteItemRowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return FavoriteViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
-        holder.bind(favoriteList[position])
+        holder.bind(marketEntity = favoriteList[position])
     }
 
     override fun getItemCount(): Int {
         return favoriteList.size
     }
 
+    private fun getItem(position: Int): BaseModelItem {
+        return BaseModelItem(
+            brand = favoriteList[position].brand,
+            createdAt = favoriteList[position].createdAt,
+            description = favoriteList[position].description,
+            id = favoriteList[position].marketId,
+            image = favoriteList[position].image,
+            model = favoriteList[position].model,
+            name = favoriteList[position].name,
+            price = favoriteList[position].price)
+    }
 }
