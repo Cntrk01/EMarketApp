@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.e_marketapp.local.MarketBasketEntity
 import com.example.e_marketapp.local.MarketEntity
+import com.example.e_marketapp.model.FilterModelItem
 import com.example.e_marketapp.states.BasketState
 import com.example.e_marketapp.states.MarketDbState
 import com.example.e_marketapp.usecase.MarketDbUseCase
@@ -20,12 +21,16 @@ import javax.inject.Inject
 @HiltViewModel
 class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketDbUseCase) :
     ViewModel() {
+    var sortByText : String=""
+    var brandFilter : FilterModelItem = FilterModelItem("",false)
+    var modelFilter=FilterModelItem("",false)
 
     private var _getAllData = MutableStateFlow(MarketDbState())
     val getAllData: StateFlow<MarketDbState> get() = _getAllData
 
     private var _basketState = MutableStateFlow(BasketState())
     val basketState : StateFlow<BasketState> get() = _basketState
+
 
     init {
         getAllItems()

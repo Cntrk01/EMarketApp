@@ -20,5 +20,15 @@
     <string name="removed_from_favorites">Removed From Favorites..</string>
     <string name="added_to_favorites">Added To Favorites</string>
     <string name="please_add_item">Please Add Item</string>
+    <string name="filter">Filter</string>
+    <string name="sort_by">Sort By</string>
+    <string name="old_to_new">Old to new</string>
+    <string name="new_to_old">New to old</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="primary">Primary</string>
+    <string name="price_high_to_low">Price hight to low</string>
+    <string name="price_low_to_high">Price low to High</string>
+    <string name="please_select_at_least_one_option">Please select at least one option</string>
 
 </resources>

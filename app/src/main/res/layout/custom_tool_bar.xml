@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/constraintLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingVertical="@dimen/size6"
@@ -12,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        android:layout_marginStart="@dimen/size3"
+        android:layout_marginStart="@dimen/size8"
         app:srcCompat="@drawable/baseline_arrow_back_24"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar_text"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,4 +43,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/navigation_icon"
         app:layout_constraintTop_toTopOf="@+id/toolbar_text" />
+
+    <TextView
+        android:id="@+id/toolbar_center_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:textSize="@dimen/header2Size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/toolbar_text"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
