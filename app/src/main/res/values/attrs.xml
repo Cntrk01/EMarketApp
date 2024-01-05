@@ -11,6 +11,7 @@
 
     <declare-styleable name="CustomToolBar">
         <attr name="toolBarText" format="string" />
+        <attr name="toolBarCenterText" format="string" />
         <attr name="toolBarTextColor" format="color" />
         <attr name="toolBarBackgroundColor" format="color" />
         <attr name="navigation_icon" format="reference" />
@@ -18,6 +19,9 @@
         <attr name="action_first_icon" format="reference" />
         <attr name="action_first_icon_visibility" format="boolean" />
         <attr name="toolbar_detail_text" format="string" />
+        <attr name="toolBarFirstTextVisibility" format="boolean" />
+        <attr name="toolBarSecondTextVisibility" format="boolean" />
+
     </declare-styleable>
 
 </resources>

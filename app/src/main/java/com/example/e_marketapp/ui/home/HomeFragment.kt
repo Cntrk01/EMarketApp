@@ -16,6 +16,7 @@ import com.example.e_marketapp.local.MarketBasketEntity
 import com.example.e_marketapp.local.MarketEntity
 import com.example.e_marketapp.model.BaseModelItem
 import com.example.e_marketapp.util.BaseFragment
+import com.example.e_marketapp.util.clickWithDebounce
 import com.example.e_marketapp.util.toastMessage
 import com.example.e_marketapp.viewmodel.MarketDbViewModel
 import com.example.e_marketapp.viewmodel.MarketViewModel
@@ -41,6 +42,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         observeMarketData()
         searchMarketData()
         initAdapter()
+
+        binding.selectFilterButton.clickWithDebounce {
+            val action=HomeFragmentDirections.actionHomeToFilterFragment()
+            findNavController().navigate(action)
+        }
     }
 
     private fun observeMarketData() {
