@@ -95,6 +95,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
                         }
                         else if (it.error?.isNotBlank() == true){
                             progressBar.visibility=View.INVISIBLE
+                            basketRecyclerView.visibility=View.INVISIBLE
                             errorText.visibility=View.VISIBLE
                             errorText.text=it.error.toString()
                         }
@@ -105,7 +106,9 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
                             setTotalPrice(it)
                             itemList.addAll(it.basketData)
                         }
-                         else{
+                         else if (it.loading==false &&
+                             it.error?.isNotBlank() == false&&
+                             it.basketData?.isNotEmpty() == false){
                              setVisibleItem(4)
                              progressBar.visibility=View.INVISIBLE
                              errorText.visibility=View.VISIBLE

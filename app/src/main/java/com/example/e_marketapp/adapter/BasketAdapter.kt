@@ -65,8 +65,6 @@ class BasketAdapter(
 
         for (item in favoriteList) {
             totalPrice += item.singleItemPrice * item.productCount
-            println("item.productPrice" +item.productPrice)
-            println("item.productCount" +item.productPrice)
         }
 
         totalPriceListener?.onTotalPriceUpdated(totalPrice = totalPrice)
