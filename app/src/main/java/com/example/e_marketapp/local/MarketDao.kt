@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.e_marketapp.model.HistoryOrderModel
 import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.model.MarketEntity
 import kotlinx.coroutines.flow.Flow
@@ -29,14 +30,23 @@ interface MarketDao {
     suspend fun addBasketItems(basketEntity: MarketBasketEntity)
 
     @Query("UPDATE basket SET productPrice= :productPrice, productCount = productCount + :count WHERE productId = :productId")
-    suspend fun plusProductCount(productId: String, count: Int,productPrice:Double)
+    suspend fun plusBasketItemCount(productId: String, count: Int, productPrice:Double)
 
     @Query("UPDATE basket SET productPrice= :productPrice, productCount = productCount - :count WHERE productId = :productId")
-    suspend fun minusProductCount(productId: String, count: Int, productPrice: Double)
+    suspend fun minusBasketItemCount(productId: String, count: Int, productPrice: Double)
 
     @Query("SELECT * FROM basket WHERE productId = :productId LIMIT 1")
-    suspend fun getBasketItem(productId: String): MarketBasketEntity?
+    suspend fun getSingleBasketItem(productId: String): MarketBasketEntity?
 
     @Query("DELETE FROM basket WHERE basket.productId= :deleteItem")
     suspend fun deleteProduct(deleteItem:String)
+
+    @Query("DELETE FROM basket")
+    suspend fun deleteAllBasket()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addHistoryOrder(historyOrder: HistoryOrderModel)
+
+    @Query("SELECT * FROM historyOrderList")
+    fun getHistoryOrder () :  Flow<List<HistoryOrderModel>>
 }

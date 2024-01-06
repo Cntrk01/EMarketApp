@@ -37,6 +37,9 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
         modelAdapter()
         primaryButtonClick()
         sortByAdapter()
+        actionFragment()
+    }
+    private fun actionFragment(){
         binding.customToolBar2.navigationIconSetOnClickListener {
             findNavController().popBackStack()
         }
@@ -65,8 +68,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
         }
     }
 
-
-   private fun sortByAdapter(){
+    private fun sortByAdapter(){
        sortByAdapter=SortByAdapter(selectedItem = {
            marketDbViewModel.sortByText=it.title
            sortByItemCheck=it.checkBoxValue
@@ -75,7 +77,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
        binding.sortByRecyclerView.layoutManager=LinearLayoutManager(requireContext())
        sortByAdapter.setModelList(sortList())
    }
-
 
     private fun brandAdapter() {
         brandAdapter = BrandAdapter(selectedItem = {
@@ -128,7 +129,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
                     binding.modelRecyclerView.visibility = View.VISIBLE
                     binding.modelErrorText.visibility = View.INVISIBLE
 
-                    modelAdapter.setModelList(filteredList)
+                    modelAdapter.setModelList(list=filteredList)
                 } else {
                     binding.modelRecyclerView.visibility = View.INVISIBLE
                     binding.modelErrorText.visibility = View.VISIBLE
@@ -140,7 +141,7 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
                 if (newText == "") {
                     binding.modelRecyclerView.visibility = View.VISIBLE
                     binding.modelErrorText.visibility = View.INVISIBLE
-                    modelAdapter.setModelList(modelList())
+                    modelAdapter.setModelList(list=modelList())
                 }
                 return false
             }

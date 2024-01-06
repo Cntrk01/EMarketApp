@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="@dimen/body1Size"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/basketRecyclerView"
         app:layout_constraintEnd_toEndOf="@+id/basketRecyclerView"
         app:layout_constraintStart_toStartOf="@+id/basketRecyclerView"

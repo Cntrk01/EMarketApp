@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/size20"
+    android:layout_margin="@dimen/size10"
+    android:padding="@dimen/size10"
+    android:background="@color/_2A59FE"
+    app:cardBackgroundColor="@color/_2A59FE"
+    app:cardCornerRadius="@dimen/size5"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+            android:id="@+id/historyCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="1"
+            android:textColor="@color/white"
+            android:textSize="@dimen/body1Size"
+            android:textStyle="bold" />
+</androidx.cardview.widget.CardView>

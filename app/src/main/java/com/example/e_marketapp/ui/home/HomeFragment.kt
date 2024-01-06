@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,11 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.e_marketapp.R
 import com.example.e_marketapp.adapter.HomeAdapter
 import com.example.e_marketapp.databinding.FragmentHomeBinding
-import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.model.BaseModel
 import com.example.e_marketapp.model.BaseModelItem
 import com.example.e_marketapp.util.BaseFragment
+import com.example.e_marketapp.util.baseModelItemToMarketEntity
+import com.example.e_marketapp.util.baseModelToMarketBasketEntity
 import com.example.e_marketapp.util.clickWithDebounce
 import com.example.e_marketapp.util.toastMessage
 import com.example.e_marketapp.viewmodel.MarketDbViewModel
@@ -44,7 +46,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         initAdapter()
         observeMarketData()
         searchMarketData()
+        actionFragment()
+    }
 
+    private fun actionFragment(){
         binding.selectFilterButton.clickWithDebounce {
             val action = HomeFragmentDirections.actionHomeToFilterFragment()
             findNavController().navigate(action)
@@ -52,7 +57,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun observeMarketData() {
-        marketViewModel.viewModelScope.launch {
+        lifecycleScope.launch {
             marketViewModel.marketDataState.collectLatest {
                 binding.apply {
                     if (it.isLoading) {
@@ -76,7 +81,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                         homeRecyclerView.visibility = View.VISIBLE
 
                         it.marketModel?.let { newMarketData ->
-                            updateMarketList(newMarketData)
+                            updateMarketList(newMarketData = newMarketData)
                         }
                     }
                 }
@@ -116,7 +121,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             if (sortedList.isNotEmpty()) {
                 marketList.clear()
                 marketList.addAll(sortedList)
-                homeAdapter.addData(marketList.take(marketSize))
+                homeAdapter.addData(newData=marketList.take(marketSize))
             } else {
                 showNoResultsError()
             }
@@ -132,7 +137,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             if (sortedList.isNotEmpty()) {
                 marketList.clear()
                 marketList.addAll(sortedList)
-                homeAdapter.addData(marketList.take(marketSize))
+                homeAdapter.addData(newData=marketList.take(marketSize))
             } else {
                 showNoResultsError()
             }
@@ -157,32 +162,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             clickFavorite = { it, checkRoomDb ->
                 if (checkRoomDb) {
                     marketDbViewModel.addMarketItem(
-                        marketItem = MarketEntity(
-                            marketId = it.id,
-                            brand = it.brand,
-                            createdAt = it.createdAt,
-                            description = it.description,
-                            image = it.image,
-                            model = it.model,
-                            name = it.name,
-                            price = it.price
-                        )
+                        baseModelItemToMarketEntity(baseModelItem = it)
                     )
                 } else {
-                    marketDbViewModel.deleteMarketItem(it.id)
+                    marketDbViewModel.deleteMarketItem(marketItemId = it.id)
                 }
             }, addToCardClick = {
                 marketDbViewModel.addBasketItem(
-                    MarketBasketEntity(
-                        productId = it.id,
-                        productCount = 1,
-                        productName = it.name,
-                        productPrice = it.price.toDouble(),
-                        singleItemPrice = it.price
-                    )
+                    baseModelToMarketBasketEntity(baseModelItem = it)
                 )
                 toastMessage(requireContext(), getString(R.string.item_added_basket))
             })
+
         homeAdapter.notifyDataSetChanged()
         binding.homeRecyclerView.adapter = homeAdapter
         binding.homeRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
@@ -254,6 +245,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             })
         }
     }
+
     override fun onResume() {
         super.onResume()
         observeMarketData()

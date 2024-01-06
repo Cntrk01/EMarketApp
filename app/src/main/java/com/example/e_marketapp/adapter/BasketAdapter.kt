@@ -20,6 +20,7 @@ class BasketAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun setBasketData(list: List<MarketBasketEntity>) {
+        this.favoriteList= emptyList()
         this.favoriteList = list
         notifyDataSetChanged()
     }
@@ -59,13 +60,15 @@ class BasketAdapter(
     }
 
     override fun onBindViewHolder(holder: BasketViewHolder, position: Int) {
-        var totalPrice=0.0
+        var totalPrice=0
         val itemPosition = favoriteList[position]
+
         for (item in favoriteList) {
-            totalPrice += item.productPrice
+            totalPrice += (item.productPrice * item.productCount).toInt()
         }
 
         totalPriceListener?.onTotalPriceUpdated(totalPrice = totalPrice)
+
         holder.binding.apply {
             itemName.text = itemPosition.productName
             itemPrice.text = itemPosition.productPrice.toString()
@@ -78,7 +81,7 @@ class BasketAdapter(
     }
 
     interface TotalPriceListener {
-        fun onTotalPriceUpdated(totalPrice: Double)
+        fun onTotalPriceUpdated(totalPrice: Int)
     }
 
     fun setTotalPriceListener(listener: TotalPriceListener) {
