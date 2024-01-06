@@ -11,5 +11,5 @@ data class BaseModelItem(
     val image: String,
     val model: String,
     val name: String,
-    val price: String
+    val price: Int
 ) : Parcelable

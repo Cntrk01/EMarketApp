@@ -56,7 +56,7 @@ class HomeAdapter(
         fun bind(marketItem: BaseModelItem) {
             binding.apply {
                 marketItemImage.urlToImageGlide(marketItem.image)
-                marketItemPrice.text = marketItem.price + "$"
+                marketItemPrice.text = marketItem.price.toString() + "$"
                 marketItemName.text = marketItem.name
 
                 updateStarVisibility(isStarred(adapterPosition))

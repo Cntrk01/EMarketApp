@@ -14,7 +14,7 @@ data class MarketEntity(
     val image: String,
     val model: String,
     val name: String,
-    val price: String
+    val price: Int
 ){
     override fun hashCode(): Int {
         return marketId.hashCode()

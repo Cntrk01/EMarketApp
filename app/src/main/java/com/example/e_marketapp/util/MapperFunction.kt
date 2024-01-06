@@ -10,7 +10,7 @@ fun baseModelToMarketBasketEntity(baseModelItem: BaseModelItem): MarketBasketEnt
         productId = baseModelItem.id,
         productName = baseModelItem.name,
         singleItemPrice = baseModelItem.price,
-        productPrice = baseModelItem.price.toDouble(),
+        productPrice = baseModelItem.price,
         productCount = 1
     )
 }

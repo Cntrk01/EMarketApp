@@ -6,12 +6,12 @@ import com.google.gson.reflect.TypeToken
 
 class TypeConventer {
     @TypeConverter
-    fun fromHistoryList(historyList: ArrayList<HistoryOrderEntity>?): String? {
+    fun fromHistoryList(historyList: List<HistoryOrderEntity>?): String? {
         return Gson().toJson(historyList)
     }
 
     @TypeConverter
-    fun toHistoryList(historyListString: String?): ArrayList<HistoryOrderEntity>? {
-        return Gson().fromJson(historyListString, object : TypeToken<ArrayList<HistoryOrderEntity>>() {}.type)
+    fun toHistoryList(historyListString: String?): List<HistoryOrderEntity>? {
+        return Gson().fromJson(historyListString, object : TypeToken<List<HistoryOrderEntity>>() {}.type)
     }
 }

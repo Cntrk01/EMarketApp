@@ -64,14 +64,16 @@ class BasketAdapter(
         val itemPosition = favoriteList[position]
 
         for (item in favoriteList) {
-            totalPrice += (item.productPrice * item.productCount).toInt()
+            totalPrice += item.singleItemPrice * item.productCount
+            println("item.productPrice" +item.productPrice)
+            println("item.productCount" +item.productPrice)
         }
 
         totalPriceListener?.onTotalPriceUpdated(totalPrice = totalPrice)
 
         holder.binding.apply {
             itemName.text = itemPosition.productName
-            itemPrice.text = itemPosition.productPrice.toString()
+            itemPrice.text = itemPosition.singleItemPrice.toString()
             itemCount.text = itemPosition.productCount.toString()
         }
     }
