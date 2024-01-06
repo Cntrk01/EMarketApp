@@ -90,7 +90,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         imageUrl: String,
         title: String,
         description: String,
-        price: String,
+        price: Int,
     ) {
         val customToolBarText = binding.customToolBar.findViewById<TextView>(R.id.toolbar_text)
 
@@ -98,7 +98,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             detailImage.urlToImageGlide(url = imageUrl)
             detailTitle.text = title
             detailDescription.text = description
-            detailPriceAmount.text = price
+            detailPriceAmount.text = price.toString()
 
             if (toolBarText.length > 15) {
                 customToolBarText.text = toolBarText.substring(0, 15) + "..."

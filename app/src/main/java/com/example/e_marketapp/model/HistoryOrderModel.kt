@@ -12,6 +12,6 @@ import kotlinx.parcelize.RawValue
 data class HistoryOrderModel (
     @PrimaryKey(autoGenerate = true)
     val id : Int ?=null,
-    val historyList : @RawValue ArrayList<HistoryOrderEntity> ?=null
+    val historyList : @RawValue List<HistoryOrderEntity> ?=null
 ) : Parcelable
 

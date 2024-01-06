@@ -90,12 +90,12 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
                 emit(Response.Loading())
                 val existingItem = dao.getSingleBasketItem(basketEntity.productId)
                 if (existingItem != null) {
-                    val totalPrice=basketEntity.singleItemPrice.toDouble() * (existingItem.productCount.toDouble()+1.00)
+                    val totalPrice=basketEntity.singleItemPrice * (existingItem.productCount)
                     dao.plusBasketItemCount(basketEntity.productId,1, totalPrice)
                 } else {
                     dao.addBasketItems(basketEntity = basketEntity)
                 }
-                emit(Response.Success(data = Unit))
+                emit(Response.Success(Unit))
             } catch (e: Exception) {
                 emit(Response.Error(message = e.message.toString() ?: ""))
             }
@@ -111,7 +111,7 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
                 if (existingItem != null) {
                     val newCount = existingItem.productCount - 1
                     if (newCount >= 1) {
-                        val totalPrice = basketEntity.singleItemPrice.toDouble() * newCount
+                        val totalPrice = basketEntity.singleItemPrice.toInt() * newCount
                         dao.minusBasketItemCount(basketEntity.productId, 1, totalPrice)
                         emit(Response.Success(data = Unit))
                     } else if (newCount==0){
@@ -142,8 +142,8 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
         return flow {
             try {
                 emit(Response.Loading())
-                dao.addHistoryOrder(historyOrder = HistoryOrderModel(historyList = historyOrder as ArrayList<HistoryOrderEntity>))
-                println(historyOrder)
+                val historyOrderModel = HistoryOrderModel(historyList = historyOrder)
+                dao.addHistoryOrder(historyOrderModel)
                 emit(Response.Success(data = Unit))
             }catch (e:Exception){
                 emit(Response.Error(message = "Error"))
@@ -151,7 +151,7 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
         }
     }
 
-    suspend fun  getHistoryOrder () :  Flow<Response<List<HistoryOrderModel>>> {
+    suspend fun getHistoryOrder () :  Flow<Response<List<HistoryOrderModel>>> {
         return channelFlow {
             try {
                 trySend(Response.Loading())

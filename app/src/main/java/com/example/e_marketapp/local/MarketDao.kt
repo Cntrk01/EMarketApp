@@ -30,10 +30,10 @@ interface MarketDao {
     suspend fun addBasketItems(basketEntity: MarketBasketEntity)
 
     @Query("UPDATE basket SET productPrice= :productPrice, productCount = productCount + :count WHERE productId = :productId")
-    suspend fun plusBasketItemCount(productId: String, count: Int, productPrice:Double)
+    suspend fun plusBasketItemCount(productId: String, count: Int, productPrice:Int)
 
     @Query("UPDATE basket SET productPrice= :productPrice, productCount = productCount - :count WHERE productId = :productId")
-    suspend fun minusBasketItemCount(productId: String, count: Int, productPrice: Double)
+    suspend fun minusBasketItemCount(productId: String, count: Int, productPrice: Int)
 
     @Query("SELECT * FROM basket WHERE productId = :productId LIMIT 1")
     suspend fun getSingleBasketItem(productId: String): MarketBasketEntity?

@@ -40,12 +40,12 @@
         app:layout_constraintBottom_toTopOf="@+id/totalPrice"
         app:layout_constraintStart_toStartOf="@+id/totalPrice" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/totalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_semi_bold"
-        android:text="123123123$"
+        android:text="123123123321123"
         android:layout_marginStart="@dimen/size5"
         android:layout_marginBottom="@dimen/size5"
         android:textColor="@color/black"
