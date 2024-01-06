@@ -2,6 +2,8 @@ package com.example.e_marketapp.repository
 
 import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.local.MarketDao
+import com.example.e_marketapp.model.HistoryOrderEntity
+import com.example.e_marketapp.model.HistoryOrderModel
 import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.util.Response
 import kotlinx.coroutines.channels.awaitClose
@@ -59,7 +61,7 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
                 emit(Response.Loading())
                 val getMarketItem=dao.getMarketItemWithId(clickMarketId = clickMarketId)
                 if (clickMarketId==getMarketItem.marketId){
-                    emit(Response.Success(getMarketItem))
+                    emit(Response.Success(data = getMarketItem))
                 }
             }catch (e: Exception) {
                 emit(Response.Error(message = e.message.toString() ?: ""))
@@ -86,32 +88,32 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
         return flow {
             try {
                 emit(Response.Loading())
-                val existingItem = dao.getBasketItem(basketEntity.productId)
+                val existingItem = dao.getSingleBasketItem(basketEntity.productId)
                 if (existingItem != null) {
                     val totalPrice=basketEntity.singleItemPrice.toDouble() * (existingItem.productCount.toDouble()+1.00)
-                    dao.plusProductCount(basketEntity.productId,1, totalPrice)
+                    dao.plusBasketItemCount(basketEntity.productId,1, totalPrice)
                 } else {
                     dao.addBasketItems(basketEntity = basketEntity)
                 }
-                emit(Response.Success(Unit))
+                emit(Response.Success(data = Unit))
             } catch (e: Exception) {
                 emit(Response.Error(message = e.message.toString() ?: ""))
             }
         }
     }
 
-    suspend fun minusProductCount(basketEntity: MarketBasketEntity) : Flow<Response<Unit>>{
+    suspend fun minusBasketItemCount(basketEntity: MarketBasketEntity) : Flow<Response<Unit>>{
         return flow {
             try {
                 emit(Response.Loading())
-                val existingItem = dao.getBasketItem(basketEntity.productId)
+                val existingItem = dao.getSingleBasketItem(basketEntity.productId)
 
                 if (existingItem != null) {
                     val newCount = existingItem.productCount - 1
                     if (newCount >= 1) {
                         val totalPrice = basketEntity.singleItemPrice.toDouble() * newCount
-                        dao.minusProductCount(basketEntity.productId, 1, totalPrice)
-                        emit(Response.Success(Unit))
+                        dao.minusBasketItemCount(basketEntity.productId, 1, totalPrice)
+                        emit(Response.Success(data = Unit))
                     } else if (newCount==0){
                         dao.deleteProduct(basketEntity.productId)
                     }
@@ -123,5 +125,46 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
             }
         }
     }
+
+    suspend fun deleteAllBasket() :  Flow<Response<Unit>>{
+        return flow {
+            try {
+                emit(Response.Loading())
+                dao.deleteAllBasket()
+                emit(Response.Success(data = Unit))
+            }catch (e:Exception){
+                emit(Response.Error(message = "Process Is Not Completed..."))
+            }
+        }
+    }
+
+    suspend fun addHistoryOrder(historyOrder: List<HistoryOrderEntity>):  Flow<Response<Unit>>{
+        return flow {
+            try {
+                emit(Response.Loading())
+                dao.addHistoryOrder(historyOrder = HistoryOrderModel(historyList = historyOrder as ArrayList<HistoryOrderEntity>))
+                println(historyOrder)
+                emit(Response.Success(data = Unit))
+            }catch (e:Exception){
+                emit(Response.Error(message = "Error"))
+            }
+        }
+    }
+
+    suspend fun  getHistoryOrder () :  Flow<Response<List<HistoryOrderModel>>> {
+        return channelFlow {
+            try {
+                trySend(Response.Loading())
+                val getHistoryOrder=dao.getHistoryOrder()
+                getHistoryOrder.collectLatest {
+                    trySend(Response.Success(data = it))
+                }
+            }catch (e:Exception){
+                trySend(Response.Error(message = "Error"))
+            }
+            awaitClose()
+        }
+    }
+
 
 }

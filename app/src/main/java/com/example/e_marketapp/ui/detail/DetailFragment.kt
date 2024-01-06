@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.example.e_marketapp.R
@@ -12,6 +13,8 @@ import com.example.e_marketapp.databinding.FragmentDetailBinding
 import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.util.BaseFragment
+import com.example.e_marketapp.util.baseModelItemToMarketEntity
+import com.example.e_marketapp.util.baseModelToMarketBasketEntity
 import com.example.e_marketapp.util.clickWithDebounce
 import com.example.e_marketapp.util.popBackStack
 import com.example.e_marketapp.util.toastMessage
@@ -34,33 +37,47 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     }
 
     private fun checkDbHasData() {
-        marketDbViewModel.getMealClickedItem(args.itemArgs.id)
-        marketDbViewModel.viewModelScope.launch {
+        marketDbViewModel.getMealClickedItem(clickMarketId = args.itemArgs.id)
+        lifecycleScope.launch {
             marketDbViewModel.getAllData.collectLatest {
                 when (it.isDeleted) {
                     true -> {
-                        binding.marketItemStar.visibility=View.INVISIBLE
-                        binding.marketItemUnStar.visibility=View.VISIBLE
+                        binding.marketItemStar.visibility = View.INVISIBLE
+                        binding.marketItemUnStar.visibility = View.VISIBLE
                     }
+
                     false -> {
-                        binding.marketItemStar.visibility=View.VISIBLE
-                        binding.marketItemUnStar.visibility=View.INVISIBLE
+                        binding.marketItemStar.visibility = View.VISIBLE
+                        binding.marketItemUnStar.visibility = View.INVISIBLE
                     }
+
                     else -> {
-                        binding.marketItemStar.visibility=View.INVISIBLE
-                        binding.marketItemUnStar.visibility=View.VISIBLE
+                        binding.marketItemStar.visibility = View.INVISIBLE
+                        binding.marketItemUnStar.visibility = View.VISIBLE
                     }
                 }
 
                 if (it.marketDataWithId != null) {
-                    binding.marketItemStar.visibility=View.VISIBLE
-                    binding.marketItemUnStar.visibility=View.INVISIBLE
+                    binding.marketItemStar.visibility = View.VISIBLE
+                    binding.marketItemUnStar.visibility = View.INVISIBLE
                     it.marketDataWithId.apply {
-                      setArgsData(toolBarText = name, imageUrl = image, title = name, description = description, price = price,)
+                        setArgsData(
+                            toolBarText = name,
+                            imageUrl = image,
+                            title = name,
+                            description = description,
+                            price = price,
+                        )
                     }
                 } else {
                     args.itemArgs.apply {
-                      setArgsData(toolBarText = name, imageUrl = image, title = name, description = description, price = price)
+                        setArgsData(
+                            toolBarText = name,
+                            imageUrl = image,
+                            title = name,
+                            description = description,
+                            price = price
+                        )
                     }
                 }
             }
@@ -78,7 +95,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         val customToolBarText = binding.customToolBar.findViewById<TextView>(R.id.toolbar_text)
 
         binding.apply {
-            detailImage.urlToImageGlide(imageUrl)
+            detailImage.urlToImageGlide(url = imageUrl)
             detailTitle.text = title
             detailDescription.text = description
             detailPriceAmount.text = price
@@ -94,30 +111,21 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
         }
     }
 
-    private fun buttonClicks(){
+    private fun buttonClicks() {
         binding.apply {
             addToCartButton.clickWithDebounce {
                 clickAddToCardButton()
             }
             marketItemStar.setOnClickListener {
-                toastMessage(requireContext(), getString(R.string.removed_from_favorites))
-                marketDbViewModel.deleteMarketItem(args.itemArgs.id)
+                toastMessage(context = requireContext(), message =  getString(R.string.removed_from_favorites))
+                marketDbViewModel.deleteMarketItem(marketItemId = args.itemArgs.id)
             }
 
             marketItemUnStar.setOnClickListener {
-                toastMessage(requireContext(), getString(R.string.added_to_favorites))
+                toastMessage(context = requireContext(), message =  getString(R.string.added_to_favorites))
                 args.itemArgs.apply {
                     marketDbViewModel.addMarketItem(
-                        MarketEntity(
-                            marketId = id,
-                            brand = brand,
-                            createdAt = createdAt,
-                            description = description,
-                            image = image,
-                            model = model,
-                            name = name,
-                            price = price
-                        )
+                        baseModelItemToMarketEntity(args.itemArgs)
                     )
                 }
             }
@@ -125,16 +133,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
     }
 
     private fun clickAddToCardButton() {
-        args.itemArgs.apply {
-            marketDbViewModel.addBasketItem(basketEntity = MarketBasketEntity(
-                productId =id,
-                productPrice = price.toDouble(),
-                singleItemPrice = price,
-                productName = name,
-                productCount = 1
-            )
-            )
-        }
+        marketDbViewModel.addBasketItem(basketEntity = baseModelToMarketBasketEntity(args.itemArgs))
         toastMessage(requireContext(), getString(R.string.item_added_basket))
     }
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_margin="@dimen/size5"
+    android:padding="@dimen/size5"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/itemName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size5"
+        android:text="ASDASDSD"
+        android:textColor="@color/black"
+        android:textSize="@dimen/body2Size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/itemSinglePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="55"
+        android:layout_marginTop="@dimen/size5"
+        android:gravity="center"
+        android:textColor="@color/_2A59FE"
+        android:textSize="@dimen/body2Size"
+        app:layout_constraintStart_toStartOf="@+id/itemName"
+        app:layout_constraintTop_toBottomOf="@+id/itemName" />
+
+    <TextView
+        android:id="@+id/itemTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/size15"
+        android:text="Total Price"
+        android:textColor="@color/black"
+        android:textSize="@dimen/body2Size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/itemName" />
+
+    <TextView
+        android:id="@+id/itemCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/size5"
+        android:text="Item Count"
+        android:textColor="@color/_2A59FE"
+        android:textSize="@dimen/body2Size"
+        app:layout_constraintEnd_toEndOf="@+id/itemTotalPrice"
+        app:layout_constraintTop_toBottomOf="@+id/itemTotalPrice" />
+</androidx.constraintlayout.widget.ConstraintLayout>

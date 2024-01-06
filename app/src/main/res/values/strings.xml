@@ -31,5 +31,8 @@
     <string name="price_low_to_high">Price low to High</string>
     <string name="please_select_at_least_one_option">Please select at least one option</string>
     <string name="try_again">Try Again</string>
+    <string name="your_order_is_completed">Your Order is Completed..</string>
+    <string name="history">History</string>
+    <string name="not_found_history">Not Found History</string>
 
 </resources>

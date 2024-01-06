@@ -14,6 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MarketViewModel @Inject constructor(private val marketUseCase: MarketUseCase) : ViewModel() {
+
     private val _marketDataState = MutableStateFlow(MarketState())
     val marketDataState: StateFlow<MarketState> get() = _marketDataState
 

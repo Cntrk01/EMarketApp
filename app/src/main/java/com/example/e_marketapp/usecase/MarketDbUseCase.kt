@@ -1,5 +1,7 @@
 package com.example.e_marketapp.usecase
 
+import com.example.e_marketapp.model.HistoryOrderEntity
+import com.example.e_marketapp.model.HistoryOrderModel
 import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.repository.MarketDbRepositoryImpl
@@ -15,5 +17,8 @@ class MarketDbUseCase @Inject constructor(private val marketDbRepo : MarketDbRep
 
     fun getBasketItems() : Flow<Response<List<MarketBasketEntity>>> = marketDbRepo.getBasketItems()
     suspend fun addBasketItems(basketEntity: MarketBasketEntity): Flow<Response<Unit>> = marketDbRepo.addBasketItems(basketEntity = basketEntity)
-    suspend fun minusProductCount(basketEntity: MarketBasketEntity) :  Flow<Response<Unit>> = marketDbRepo.minusProductCount(basketEntity)
+    suspend fun minusProductCount(basketEntity: MarketBasketEntity) :  Flow<Response<Unit>> = marketDbRepo.minusBasketItemCount(basketEntity = basketEntity)
+    suspend fun deleteAllBasket() :  Flow<Response<Unit>> = marketDbRepo.deleteAllBasket()
+    suspend fun addHistoryOrder(historyOrder: List<HistoryOrderEntity>):  Flow<Response<Unit>> = marketDbRepo.addHistoryOrder(historyOrder=historyOrder)
+    suspend fun  getHistoryOrder () :  Flow<Response<List<HistoryOrderModel>>> = marketDbRepo.getHistoryOrder()
 }

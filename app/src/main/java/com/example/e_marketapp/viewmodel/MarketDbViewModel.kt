@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.model.FilterModelItem
+import com.example.e_marketapp.model.HistoryOrderEntity
+import com.example.e_marketapp.model.HistoryOrderModel
 import com.example.e_marketapp.states.BasketState
 import com.example.e_marketapp.states.MarketDbState
 import com.example.e_marketapp.usecase.MarketDbUseCase
 import com.example.e_marketapp.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -35,7 +38,7 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
     }
 
 
-    fun getAllItems() = viewModelScope.launch {
+    private fun getAllItems() = viewModelScope.launch {
         //burada channelFlow kullandım.Çünkü flow olarak return etmeye çalıştığımda datayı emit etmeye çalışıyor sonrasında
         // catch blogu calıstıgı için emit etmeye çalışıyor.Bundan dolayı emit edilmiyor.
         //ben normal try catch kullandım flowun catchini kullandıgımda hata gözlemlemedim fakat channelFlow kullandım.
@@ -199,5 +202,54 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
             }
         }
     }
+
+    fun deleteAllBasket() = viewModelScope.launch{
+        marketDbUseCase.deleteAllBasket().collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _basketState.value=BasketState(loading = true)
+                }
+                is Response.Error->{
+                    _basketState.value=BasketState(loading = false, error = "Process Is Not Completed...")
+                }
+                else ->{
+                    _basketState.value=BasketState(loading = false, error ="", basketAllDeleted = "Deleted To Basket..")
+                }
+            }
+        }
+    }
+
+    fun addHistoryOrder(historyOrder: List<HistoryOrderEntity>) = viewModelScope.launch {
+        marketDbUseCase.addHistoryOrder(historyOrder = historyOrder).collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _basketState.value=BasketState(loading = true)
+                }
+                is Response.Error->{
+                    _basketState.value=BasketState(loading = false, error = "Not Added")
+                }
+                else ->{
+                    _basketState.value=BasketState(loading = false, error ="")
+                }
+            }
+        }
+    }
+
+    fun getHistoryOrder () = viewModelScope.launch {
+        marketDbUseCase.getHistoryOrder().collectLatest {
+            when(it){
+                is Response.Loading->{
+                    _basketState.value=BasketState(loading = true)
+                }
+                is Response.Error->{
+                    _basketState.value=BasketState(loading = false, error = "Not Added")
+                }
+                else ->{
+                    _basketState.value=BasketState(loading = false, error ="", historyOrderModel = it.data)
+                }
+            }
+        }
+    }
+
 
 }

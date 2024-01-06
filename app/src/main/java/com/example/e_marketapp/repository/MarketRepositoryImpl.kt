@@ -21,7 +21,7 @@ class MarketRepositoryImpl @Inject constructor(private val api : MarketApi)  {
             }catch (e:Exception){
                 emit(Response.Error(message = "Error !"))
             }catch (e: TimeoutCancellationException) {
-                emit(Response.Error("Operation timed out !"))
+                emit(Response.Error(message = "Operation timed out !"))
             }
         }
     }

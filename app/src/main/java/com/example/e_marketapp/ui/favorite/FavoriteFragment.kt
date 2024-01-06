@@ -3,6 +3,7 @@ package com.example.e_marketapp.ui.favorite
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,6 +12,7 @@ import com.example.e_marketapp.adapter.FavoriteAdapter
 import com.example.e_marketapp.databinding.FragmentFavoriteBinding
 import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.util.BaseFragment
+import com.example.e_marketapp.util.baseModelToMarketBasketEntity
 import com.example.e_marketapp.util.toastMessage
 import com.example.e_marketapp.viewmodel.MarketDbViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,19 +35,13 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
         adapter = FavoriteAdapter(
             addToCardClick = {
                 marketDbViewModel.addBasketItem(
-                    MarketBasketEntity(
-                        productId = it.id,
-                        productCount = 1,
-                        productName = it.name,
-                        productPrice = it.price.toDouble(),
-                        singleItemPrice = it.price
-                    )
+                    baseModelToMarketBasketEntity(baseModelItem = it)
                 )
-                toastMessage(requireContext(), getString(R.string.item_added_basket))
+                toastMessage(context = requireContext(), getString(R.string.item_added_basket))
             },
             isStarred = {
-                toastMessage(requireContext(), getString(R.string.removed_from_favorites))
-                marketDbViewModel.deleteMarketItem(it)
+                toastMessage(context = requireContext(), getString(R.string.removed_from_favorites))
+                marketDbViewModel.deleteMarketItem(marketItemId = it)
             },
             clickItem = {
                 val action = FavoriteFragmentDirections.actionFavoriteToDetailFragment(itemArgs = it)
@@ -57,7 +53,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
     }
 
     private fun observeData() {
-        marketDbViewModel.viewModelScope.launch {
+        lifecycleScope.launch {
             marketDbViewModel.getAllData.collectLatest {
                 binding.apply {
                     if (it.loading == true) {
