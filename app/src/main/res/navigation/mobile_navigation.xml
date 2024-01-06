@@ -3,23 +3,86 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/home">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/home"
         android:name="com.example.e_marketapp.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:label="@string/e_market"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_home_to_filterFragment"
+            app:destination="@id/filterFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.e_marketapp.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/basket"
+        android:name="com.example.e_marketapp.ui.basket.BasketFragment"
+        android:label="@string/basket"
+        tools:layout="@layout/fragment_basket" >
+        <action
+            android:id="@+id/action_basket_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.e_marketapp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/favorite"
+        android:name="com.example.e_marketapp.ui.favorite.FavoriteFragment"
+        android:label="@string/favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favorite_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.e_marketapp.ui.detail.DetailFragment"
+        android:label="fragment_detail"
+        tools:layout="@layout/fragment_detail" >
+        <action
+            android:id="@+id/action_detailFragment_to_home"
+            app:destination="@id/home" />
+        <action
+            android:id="@+id/action_detailFragment_to_basket"
+            app:destination="@id/basket" />
+        <action
+            android:id="@+id/action_detailFragment_to_favorite"
+            app:destination="@id/favorite" />
+        <argument
+            android:name="itemArgs"
+            app:argType="com.example.e_marketapp.model.BaseModelItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/filterFragment"
+        android:name="com.example.e_marketapp.ui.filter.FilterFragment"
+        android:label="fragment_filter"
+        tools:layout="@layout/fragment_filter" >
+        <action
+            android:id="@+id/action_filterFragment_to_home"
+            app:destination="@id/home" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.e_marketapp.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profile_to_historyDetailFragment"
+            app:destination="@id/historyDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyDetailFragment"
+        android:name="com.example.e_marketapp.ui.profile.detail.HistoryDetailFragment"
+        android:label="fragment_history_detail"
+        tools:layout="@layout/fragment_history_detail" >
+        <action
+            android:id="@+id/action_historyDetailFragment_to_profile"
+            app:destination="@id/profile" />
+        <argument
+            android:name="history"
+            app:argType="com.example.e_marketapp.model.HistoryOrderModel" />
+    </fragment>
 </navigation>

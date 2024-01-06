@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.favorite.FavoriteFragment">
+
+    <com.example.e_marketapp.component.CustomToolBar
+        android:id="@+id/customToolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:toolBarFirstTextVisibility="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:action_first_icon_visibility="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:toolBarText="@string/favorite"
+        app:navigation_icon_visibility="false"
+        app:toolBarTextColor="@color/white" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoriteRecyclerView"
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size0"
+        android:layout_margin="@dimen/size5"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customToolBar" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/favoriteRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/favoriteRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/favoriteRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/customToolBar" />
+
+    <TextView
+        android:id="@+id/errorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="@dimen/body1Size"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/favoriteRecyclerView"
+        app:layout_constraintEnd_toEndOf="@+id/favoriteRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/favoriteRecyclerView"
+        app:layout_constraintTop_toBottomOf="@+id/customToolBar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

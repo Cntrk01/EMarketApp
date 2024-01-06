@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.filter.FilterFragment">
+
+    <com.example.e_marketapp.component.CustomToolBar
+        android:id="@+id/customToolBar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/size5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigation_icon="@drawable/baseline_close_24"
+        app:navigation_icon_visibility="true"
+        app:toolBarBackgroundColor="@color/white"
+        app:toolBarCenterText="@string/filter"
+        app:toolBarFirstTextVisibility="false"
+        app:toolBarSecondTextVisibility="false"
+        app:toolBarText="@string/filter"
+        app:toolBarTextColor="@color/black" />
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size1"
+        android:background="@color/lightwhite"
+        app:layout_constraintTop_toBottomOf="@+id/customToolBar2" />
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="@dimen/size0"
+        android:layout_height="@dimen/size0"
+        android:layout_marginBottom="@dimen/size10"
+        app:layout_constraintBottom_toTopOf="@+id/primaryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customToolBar2">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size0">
+
+            <TextView
+                android:id="@+id/sortByText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size5"
+                android:layout_marginTop="@dimen/size5"
+                android:text="@string/sort_by"
+                android:textColor="@color/darkgrey"
+                android:textSize="@dimen/body1Size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sortByRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size70"
+                android:layout_margin="@dimen/size10"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sortByText" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size0.5"
+                android:layout_marginStart="@dimen/size10"
+                android:layout_marginTop="@dimen/size15"
+                android:layout_marginEnd="@dimen/size10"
+                android:background="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sortByRecyclerView" />
+
+            <TextView
+                android:id="@+id/brandText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size10"
+                android:text="@string/brand"
+                android:textColor="@color/darkgrey"
+                android:textSize="@dimen/body1Size"
+                app:layout_constraintStart_toStartOf="@+id/sortByText"
+                app:layout_constraintTop_toBottomOf="@id/view2" />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/brandSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size10"
+                app:iconifiedByDefault="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/brandText"
+                app:queryHint="Search" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/brandRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size70"
+                android:layout_margin="@dimen/size10"
+                app:layout_constraintEnd_toEndOf="@+id/brandSearch"
+                app:layout_constraintStart_toStartOf="@+id/brandSearch"
+                app:layout_constraintTop_toBottomOf="@+id/brandSearch" />
+
+            <TextView
+                android:id="@+id/brandErrorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="@string/query_not_found"
+                android:textColor="@color/black"
+                android:visibility="invisible"
+                android:textSize="@dimen/body1Size"
+                app:layout_constraintBottom_toBottomOf="@+id/brandRecyclerView"
+                app:layout_constraintEnd_toEndOf="@+id/brandRecyclerView"
+                app:layout_constraintStart_toStartOf="@+id/brandRecyclerView"
+                app:layout_constraintTop_toTopOf="@+id/brandRecyclerView" />
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size0.5"
+                android:layout_marginStart="@dimen/size10"
+                android:layout_marginTop="@dimen/size15"
+                android:layout_marginEnd="@dimen/size10"
+                android:background="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/brandRecyclerView" />
+
+            <TextView
+                android:id="@+id/modelText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size10"
+                android:text="@string/model"
+                android:textColor="@color/darkgrey"
+                android:textSize="@dimen/body1Size"
+                app:layout_constraintStart_toStartOf="@+id/sortByText"
+                app:layout_constraintTop_toBottomOf="@id/view3" />
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/modelSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size10"
+                app:iconifiedByDefault="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/modelText"
+                app:queryHint="Search" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/modelRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size70"
+                android:layout_margin="@dimen/size10"
+                app:layout_constraintEnd_toEndOf="@+id/modelSearch"
+                app:layout_constraintStart_toStartOf="@+id/modelSearch"
+                app:layout_constraintTop_toBottomOf="@+id/modelSearch" />
+
+            <TextView
+                android:id="@+id/modelErrorText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="@string/query_not_found"
+                android:textColor="@color/black"
+                android:textSize="@dimen/body1Size"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="@+id/modelRecyclerView"
+                app:layout_constraintStart_toStartOf="@+id/modelRecyclerView"
+                app:layout_constraintTop_toTopOf="@+id/modelRecyclerView"
+                app:layout_constraintBottom_toBottomOf="@+id/modelRecyclerView"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.example.e_marketapp.component.CustomContinueButton
+        android:id="@+id/primaryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_continue_button_low_radius"
+        android:layout_margin="@dimen/size10"
+        app:buttonFontFamily="@font/poppins_semi_bold"
+        app:buttonText="@string/primary"
+        app:buttonTextColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

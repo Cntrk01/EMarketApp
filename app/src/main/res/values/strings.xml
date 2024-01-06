@@ -1,6 +1,38 @@
 <resources>
     <string name="app_name">E-Market App</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="e_market">E-Market</string>
+    <string name="basket">Basket</string>
+    <string name="favorite">Favorite</string>
+    <string name="add_to_card">Add To Card</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="price">Price:</string>
+    <string name="search_here">Search Here</string>
+    <string name="filters">Filters:</string>
+    <string name="query_not_found">Query Not Found ...</string>
+    <string name="not_found_data_in_storage">Not Found Data In Storage...</string>
+    <string name="total">Total :</string>
+    <string name="complete">Complete</string>
+    <string name="no_items_in_basket">No Items In Basket...</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="item_added_basket">Item Added Basket</string>
+    <string name="removed_from_favorites">Removed From Favorites..</string>
+    <string name="added_to_favorites">Added To Favorites</string>
+    <string name="please_add_item">Please Add Item</string>
+    <string name="filter">Filter</string>
+    <string name="sort_by">Sort By</string>
+    <string name="old_to_new">Old to new</string>
+    <string name="new_to_old">New to old</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="primary">Primary</string>
+    <string name="price_high_to_low">Price hight to low</string>
+    <string name="price_low_to_high">Price low to High</string>
+    <string name="please_select_at_least_one_option">Please select at least one option</string>
+    <string name="try_again">Try Again</string>
+    <string name="your_order_is_completed">Your Order is Completed..</string>
+    <string name="history">History</string>
+    <string name="not_found_history">Not Found History</string>
+
 </resources>
