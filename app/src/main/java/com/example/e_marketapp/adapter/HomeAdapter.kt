@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.e_marketapp.databinding.HomeItemRowBinding
-import com.example.e_marketapp.local.MarketEntity
+import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.model.BaseModelItem
 import com.example.e_marketapp.util.urlToImageGlide
 
 @SuppressLint("NotifyDataSetChanged")
 class HomeAdapter(
-    private val clickItemData: ((BaseModelItem) -> Unit)? = null,
+    private val clickActionFragment: ((BaseModelItem) -> Unit)? = null,
     private val clickFavorite: ((BaseModelItem, isStarred: Boolean) -> Unit)? = null,
     private val addToCardClick: ((BaseModelItem) -> Unit)? = null,
 ) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
@@ -36,7 +36,7 @@ class HomeAdapter(
 
         init {
             itemView.setOnClickListener {
-                clickItemData?.invoke(marketModelList[adapterPosition])
+                clickActionFragment?.invoke(marketModelList[adapterPosition])
             }
 
             binding.addToCardItem.setOnClickListener {

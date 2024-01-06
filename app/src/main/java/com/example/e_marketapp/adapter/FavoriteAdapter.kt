@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.e_marketapp.databinding.FavoriteItemRowBinding
-import com.example.e_marketapp.local.MarketEntity
+import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.model.BaseModelItem
 import com.example.e_marketapp.util.urlToImageGlide
 

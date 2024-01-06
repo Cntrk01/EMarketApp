@@ -7,12 +7,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.example.e_marketapp.databinding.ActivityMainBinding
-import com.example.e_marketapp.ui.basket.BasketFragment
 import com.example.e_marketapp.viewmodel.MarketDbViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -53,6 +50,9 @@ class MainActivity : AppCompatActivity() {
         }
         bottomNavigationView.setupWithNavController(navController)
     }
+
+    // lifecycleScope içerisinde çalışan 1 coroutine işlem başlatılır bundan dolayı 2.bir async işlem yapmaya çalışırsak çalışmaz
+    //bundan dolayı diğerini farklı scopa aldım.
     private fun observeBadgeCount(){
         lifecycleScope.launch {
             marketDbViewModel.getBasketItems()
@@ -61,6 +61,18 @@ class MainActivity : AppCompatActivity() {
                     badgeClear(R.id.basket)
                 }else{
                     it.basketData?.size?.let { it1 -> badgeSetup(R.id.basket, it1) }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            marketDbViewModel.getAllData.collectLatest {
+                if (it.marketData?.isEmpty() == true){
+                    badgeClear(R.id.favorite)
+                }else{
+                    it.marketData?.size?.let{size->
+                        badgeSetup(R.id.favorite, size)
+                    }
                 }
             }
         }

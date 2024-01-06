@@ -9,8 +9,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.example.e_marketapp.R
 import com.example.e_marketapp.databinding.FragmentDetailBinding
-import com.example.e_marketapp.local.MarketBasketEntity
-import com.example.e_marketapp.local.MarketEntity
+import com.example.e_marketapp.model.MarketBasketEntity
+import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.util.BaseFragment
 import com.example.e_marketapp.util.clickWithDebounce
 import com.example.e_marketapp.util.popBackStack
@@ -132,7 +132,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
                 singleItemPrice = price,
                 productName = name,
                 productCount = 1
-            ))
+            )
+            )
         }
         toastMessage(requireContext(), getString(R.string.item_added_basket))
     }
