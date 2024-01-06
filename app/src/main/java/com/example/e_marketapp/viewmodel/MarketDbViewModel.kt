@@ -2,8 +2,8 @@ package com.example.e_marketapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.e_marketapp.local.MarketBasketEntity
-import com.example.e_marketapp.local.MarketEntity
+import com.example.e_marketapp.model.MarketBasketEntity
+import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.model.FilterModelItem
 import com.example.e_marketapp.states.BasketState
 import com.example.e_marketapp.states.MarketDbState
@@ -35,7 +35,7 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
     }
 
 
-    private fun getAllItems() = viewModelScope.launch {
+    fun getAllItems() = viewModelScope.launch {
         //burada channelFlow kullandım.Çünkü flow olarak return etmeye çalıştığımda datayı emit etmeye çalışıyor sonrasında
         // catch blogu calıstıgı için emit etmeye çalışıyor.Bundan dolayı emit edilmiyor.
         //ben normal try catch kullandım flowun catchini kullandıgımda hata gözlemlemedim fakat channelFlow kullandım.

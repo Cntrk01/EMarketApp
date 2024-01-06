@@ -1,10 +1,11 @@
 package com.example.e_marketapp.local
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.e_marketapp.model.MarketBasketEntity
+import com.example.e_marketapp.model.MarketEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

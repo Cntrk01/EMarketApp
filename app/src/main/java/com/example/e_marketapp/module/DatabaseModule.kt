@@ -1,4 +1,4 @@
-package com.example.e_marketapp.di
+package com.example.e_marketapp.module
 
 import android.content.Context
 import androidx.room.Room

@@ -1,4 +1,4 @@
-package com.example.e_marketapp.di
+package com.example.e_marketapp.module
 
 import com.example.e_marketapp.network.MarketApi
 import dagger.Module

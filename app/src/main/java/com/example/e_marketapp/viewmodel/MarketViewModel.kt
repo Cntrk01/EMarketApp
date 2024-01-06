@@ -2,7 +2,6 @@ package com.example.e_marketapp.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.e_marketapp.model.BaseModel
 import com.example.e_marketapp.states.MarketState
 import com.example.e_marketapp.usecase.MarketUseCase
 import com.example.e_marketapp.util.Response

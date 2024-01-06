@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.e_marketapp.R
 import com.example.e_marketapp.databinding.BasketItemRowBinding
-import com.example.e_marketapp.local.MarketBasketEntity
+import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.util.clickWithDebounce
 
 class BasketAdapter(

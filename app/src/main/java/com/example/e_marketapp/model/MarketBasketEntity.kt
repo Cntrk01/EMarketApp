@@ -1,4 +1,4 @@
-package com.example.e_marketapp.local
+package com.example.e_marketapp.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

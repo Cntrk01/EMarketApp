@@ -1,6 +1,6 @@
 package com.example.e_marketapp.states
 
-import com.example.e_marketapp.local.MarketEntity
+import com.example.e_marketapp.model.MarketEntity
 
 data class MarketDbState(
     val loading : Boolean ?=false,
@@ -8,5 +8,5 @@ data class MarketDbState(
     val marketData : List<MarketEntity> ?=null,
     val isAdded : Boolean ?= false,
     val isDeleted : Boolean ?=null,
-    val marketDataWithId : MarketEntity ?=null
+    val marketDataWithId : MarketEntity?=null
 )

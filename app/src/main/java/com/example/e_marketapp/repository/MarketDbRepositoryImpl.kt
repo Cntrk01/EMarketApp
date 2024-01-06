@@ -1,8 +1,8 @@
 package com.example.e_marketapp.repository
 
-import com.example.e_marketapp.local.MarketBasketEntity
+import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.local.MarketDao
-import com.example.e_marketapp.local.MarketEntity
+import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.util.Response
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

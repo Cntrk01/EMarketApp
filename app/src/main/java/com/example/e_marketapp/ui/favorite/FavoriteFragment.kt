@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.e_marketapp.R
 import com.example.e_marketapp.adapter.FavoriteAdapter
 import com.example.e_marketapp.databinding.FragmentFavoriteBinding
-import com.example.e_marketapp.local.MarketBasketEntity
+import com.example.e_marketapp.model.MarketBasketEntity
 import com.example.e_marketapp.util.BaseFragment
 import com.example.e_marketapp.util.toastMessage
 import com.example.e_marketapp.viewmodel.MarketDbViewModel
