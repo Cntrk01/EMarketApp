@@ -3,7 +3,7 @@ Gidilen detay sayfasında da yine favori işlemi yapabiliyor veya add to card di
 işlemini gerçekleştirebiliyor.Sepet kısımında complete yaptığı işlemleride profil sayfasında görebiliyor.Bu projede ağırlıklı room kullanılmıştır.Proje yapılırken CLEAN olmasına ve MVVM mimarisi standartlarına
 uygun olarak geliştirilmeye özen gösterilmiştir.Projede dataları listelerken Flow kullandım.Flow kullanma sebebim ise flow döndürdüğümüz fonksiyonlar bize asenkron olma özelliği tanıyor.Bunu sağladığı için
 orada collect,birden fazla hesaplanmış asenktron değer döndürme özelliği,suspend fun çağırma gibi işlemler gerçekleştirebiliyoruz ve benimde gerçekleştirdiğim yerler mevcut.Fakat livedata da kullanılabilirdi.
-Suspend fonksiyonlar ile de asenkron olan işlemleri yönettim böylelikle kullanıcının beklediği durumları,hata durumlarını,datanın gelmemesi gibi durumları uygulamayı bloklamadan halletmiş oldum.
+Suspend fonksiyonlar ile de asenkron olan işlemleri yönettim böylelikle kullanıcının beklediği durumları,hata durumlarını,datanın gelmemesi gibi durumları uygulamayı bloklamadan halletmiş oldum.Örneğin ilk home ekranında internetiniz yoksa karşınıza error butonu ve texti çıkıyor.Butona tıklayarak tekrar API'ye istek atabiliyorsun.Böylelikle sonsuza kadar progressbar dönmüyor
 Projede Kullanılan Teknolojiler : 
 
 
@@ -24,6 +24,18 @@ Projede Kullanılan Teknolojiler :
 
 
 -State
+
+
+
+
+
+
+![Ekran görüntüsü 2024-01-07 150421](https://github.com/Cntrk01/EMarketApp/assets/98031686/8870e3eb-46d3-40c1-bba6-661d6aeb872b)
+
+
+
+
+
 
 
 ![Ekran görüntüsü 2024-01-06 203655](https://github.com/Cntrk01/EMarketApp/assets/98031686/ebb038fa-5d4a-42ef-8bfa-c44108d02004)
