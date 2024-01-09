@@ -27,6 +27,7 @@ import com.example.e_marketapp.viewmodel.MarketViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::inflate) {
@@ -49,7 +50,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
         actionFragment()
     }
 
-    private fun actionFragment(){
+    private fun actionFragment() {
         binding.selectFilterButton.clickWithDebounce {
             val action = HomeFragmentDirections.actionHomeToFilterFragment()
             findNavController().navigate(action)
@@ -58,44 +59,89 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
 
     private fun observeMarketData() {
         lifecycleScope.launch {
-            marketViewModel.marketDataState.collectLatest {
-                binding.apply {
-                    if (it.isLoading) {
-                        homeProgressBar.visibility = View.VISIBLE
-                    } else if (it.error.toString().isNotEmpty()) {
-                        homeErrorText.visibility = View.VISIBLE
-                        homeProgressBar.visibility = View.GONE
+            supervisorScope {
+                launch {
+                    marketViewModel.marketDataState.collectLatest {
+                        binding.apply {
+                            if (it.isLoading) {
+                                homeProgressBar.visibility = View.VISIBLE
+                            } else if (it.error.toString().isNotEmpty()) {
+                                homeErrorText.visibility = View.VISIBLE
+                                homeProgressBar.visibility = View.GONE
 
-                        homeErrorText.text = it.error.toString()
-                        tryAgainButton.visibility = View.VISIBLE
+                                homeErrorText.text = it.error.toString()
+                                tryAgainButton.visibility = View.VISIBLE
 
-                        tryAgainButton.clickWithDebounce {
-                            marketViewModel.getMarketData()
-                            homeErrorText.visibility = View.GONE
-                            tryAgainButton.visibility = View.GONE
+                                tryAgainButton.clickWithDebounce {
+                                    marketViewModel.getMarketData()
+                                    homeErrorText.visibility = View.GONE
+                                    tryAgainButton.visibility = View.GONE
+                                }
+                            } else {
+                                homeErrorText.visibility = View.GONE
+                                homeProgressBar.visibility = View.GONE
+                                tryAgainButton.visibility = View.GONE
+                                homeRecyclerView.visibility = View.VISIBLE
+
+                                it.marketModel?.let { newMarketData ->
+                                    updateMarketList(newMarketData = newMarketData)
+                                }
+                            }
                         }
-                    } else {
-                        homeErrorText.visibility = View.GONE
-                        homeProgressBar.visibility = View.GONE
-                        tryAgainButton.visibility = View.GONE
-                        homeRecyclerView.visibility = View.VISIBLE
+                    }
+                }
 
-                        it.marketModel?.let { newMarketData ->
-                            updateMarketList(newMarketData = newMarketData)
+                launch {
+                    marketDbViewModel.getAllData.collectLatest {
+                        if (it.marketData?.isNotEmpty() == true) {
+                            if (it.isDeleted != true) {
+                                homeAdapter.checkList(checkList = it.marketData as ArrayList<MarketEntity>)
+                            }
                         }
                     }
                 }
             }
+            //KENDİME NOT !: Burada 2 farklı coroutine scope açıyordum işlemleri yapıyordum.
+            //Viewmodel scope içerisinde 2 sinide collect edemiyordum ilk yazılan geliyor sonrasındaki collectler gelmiyordu.Bundan dolayı iki farklı scope açtım bu yanlış olabilir.
+            //bunun yerine supervisorscope kullanrak içinde scoplar açarak birbirinden etkilenmeyen işlemleri sağlayabilirim.Launchların içinde farklı işlemler var çalışır durumda.
+            //marketViewModel.marketDataState.collectLatest {
+            //                binding.apply {
+            //                    if (it.isLoading) {
+            //                        homeProgressBar.visibility = View.VISIBLE
+            //                    } else if (it.error.toString().isNotEmpty()) {
+            //                        homeErrorText.visibility = View.VISIBLE
+            //                        homeProgressBar.visibility = View.GONE
+            //
+            //                        homeErrorText.text = it.error.toString()
+            //                        tryAgainButton.visibility = View.VISIBLE
+            //
+            //                        tryAgainButton.clickWithDebounce {
+            //                            marketViewModel.getMarketData()
+            //                            homeErrorText.visibility = View.GONE
+            //                            tryAgainButton.visibility = View.GONE
+            //                        }
+            //                    } else {
+            //                        homeErrorText.visibility = View.GONE
+            //                        homeProgressBar.visibility = View.GONE
+            //                        tryAgainButton.visibility = View.GONE
+            //                        homeRecyclerView.visibility = View.VISIBLE
+            //
+            //                        it.marketModel?.let { newMarketData ->
+            //                            updateMarketList(newMarketData = newMarketData)
+            //                        }
+            //                    }
+            //                }
+            //            }
         }
-        marketDbViewModel.viewModelScope.launch {
-            marketDbViewModel.getAllData.collectLatest {
-                if (it.marketData?.isNotEmpty() == true) {
-                    if (it.isDeleted != true) {
-                        homeAdapter.checkList(checkList = it.marketData as ArrayList<MarketEntity>)
-                    }
-                }
-            }
-        }
+        //marketDbViewModel.viewModelScope.launch {
+        //            marketDbViewModel.getAllData.collectLatest {
+        //                if (it.marketData?.isNotEmpty() == true) {
+        //                    if (it.isDeleted != true) {
+        //                        homeAdapter.checkList(checkList = it.marketData as ArrayList<MarketEntity>)
+        //                    }
+        //                }
+        //            }
+        //        }
     }
 
     private fun updateMarketList(newMarketData: BaseModel) {
@@ -121,7 +167,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             if (sortedList.isNotEmpty()) {
                 marketList.clear()
                 marketList.addAll(sortedList)
-                homeAdapter.addData(newData=marketList.take(marketSize))
+                homeAdapter.addData(newData = marketList.take(marketSize))
             } else {
                 showNoResultsError()
             }
@@ -137,7 +183,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
             if (sortedList.isNotEmpty()) {
                 marketList.clear()
                 marketList.addAll(sortedList)
-                homeAdapter.addData(newData=marketList.take(marketSize))
+                homeAdapter.addData(newData = marketList.take(marketSize))
             } else {
                 showNoResultsError()
             }
