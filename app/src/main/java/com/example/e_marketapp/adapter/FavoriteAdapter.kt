@@ -33,7 +33,6 @@ class FavoriteAdapter(
 
             binding.marketItemStar.setOnClickListener {
                 isStarred?.invoke(getItem(adapterPosition).id)
-                binding.marketItemStar.visibility = View.INVISIBLE
             }
 
             binding.itemAddCard.setOnClickListener {
