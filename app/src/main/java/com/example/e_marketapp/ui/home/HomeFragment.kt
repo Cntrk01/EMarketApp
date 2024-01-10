@@ -204,6 +204,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
                 findNavController().navigate(action)
             },
             clickFavorite = { it, checkRoomDb ->
+                println(checkRoomDb)
                 if (checkRoomDb) {
                     marketDbViewModel.addMarketItem(
                         baseModelItemToMarketEntity(baseModelItem = it)
