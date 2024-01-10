@@ -89,7 +89,6 @@ class HomeAdapter(
         private fun findMarketEntityById(id: String): MarketEntity? {
             return marketCheckList.find { it.marketId == id }
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

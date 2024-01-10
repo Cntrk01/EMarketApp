@@ -7,7 +7,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -145,8 +144,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(FragmentHomeBinding::infl
     }
 
     private fun updateMarketList(newMarketData: BaseModel) {
-        val filterTitleNotEmpty =
-            marketDbViewModel.brandFilter.title.isNotEmpty() || marketDbViewModel.modelFilter.title.isNotEmpty()
+        val filterTitleNotEmpty = marketDbViewModel.brandFilter.title.isNotEmpty() || marketDbViewModel.modelFilter.title.isNotEmpty()
         val brandFilterEmpty = marketDbViewModel.brandFilter.title.isEmpty()
         val modelFilterEmpty = marketDbViewModel.modelFilter.title.isEmpty()
 

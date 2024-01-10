@@ -111,7 +111,7 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
                 if (existingItem != null) {
                     val newCount = existingItem.productCount - 1
                     if (newCount >= 1) {
-                        val totalPrice = basketEntity.singleItemPrice.toInt() * newCount
+                        val totalPrice = basketEntity.singleItemPrice * newCount
                         dao.minusBasketItemCount(basketEntity.productId, 1, totalPrice)
                         emit(Response.Success(data = Unit))
                     } else if (newCount==0){
