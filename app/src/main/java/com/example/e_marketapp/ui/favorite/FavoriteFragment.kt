@@ -34,9 +34,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>(FragmentFavoriteB
     private fun initAdapter() {
         adapter = FavoriteAdapter(
             addToCardClick = {
-                marketDbViewModel.addBasketItem(
-                    baseModelToMarketBasketEntity(baseModelItem = it)
-                )
+                marketDbViewModel.addBasketItem(baseModelToMarketBasketEntity(baseModelItem = it))
                 toastMessage(context = requireContext(), getString(R.string.item_added_basket))
             },
             isStarred = {

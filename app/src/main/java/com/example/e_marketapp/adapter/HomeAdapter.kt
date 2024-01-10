@@ -72,7 +72,6 @@ class HomeAdapter(
             } else {
                 findMarketEntityById(marketItem.id)?.let { marketCheckList.add(it) }
             }
-
             updateStarVisibility(!isStarred)
         }
 
