@@ -34,6 +34,7 @@ class HomeAdapter(
     inner class ViewHolder(val binding: HomeItemRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+
         init {
             itemView.setOnClickListener {
                 clickActionFragment?.invoke(marketModelList[adapterPosition])
@@ -44,11 +45,11 @@ class HomeAdapter(
             }
 
             binding.marketItemStar.setOnClickListener {
-                handleStarClick(isStarred(adapterPosition))
+                handleStarClick(false)
             }
 
             binding.marketItemUnStar.setOnClickListener {
-                handleStarClick(!isStarred(adapterPosition))
+                handleStarClick(true)
             }
         }
 
@@ -56,7 +57,7 @@ class HomeAdapter(
         fun bind(marketItem: BaseModelItem) {
             binding.apply {
                 marketItemImage.urlToImageGlide(marketItem.image)
-                marketItemPrice.text = marketItem.price.toString() + "$"
+                marketItemPrice.text = marketItem.price.toString() +"$"
                 marketItemName.text = marketItem.name
 
                 updateStarVisibility(isStarred(adapterPosition))
@@ -72,8 +73,7 @@ class HomeAdapter(
             } else {
                 findMarketEntityById(marketItem.id)?.let { marketCheckList.add(it) }
             }
-
-            updateStarVisibility(!isStarred)
+            updateStarVisibility(isStarred)
         }
 
         private fun updateStarVisibility(isStarred: Boolean) {
@@ -89,6 +89,7 @@ class HomeAdapter(
         private fun findMarketEntityById(id: String): MarketEntity? {
             return marketCheckList.find { it.marketId == id }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
