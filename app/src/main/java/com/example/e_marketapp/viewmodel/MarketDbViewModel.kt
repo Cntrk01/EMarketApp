@@ -37,7 +37,6 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
         getAllItems()
     }
 
-
     private fun getAllItems() = viewModelScope.launch {
         //burada channelFlow kullandım.Çünkü flow olarak return etmeye çalıştığımda datayı emit etmeye çalışıyor sonrasında
         // catch blogu calıstıgı için emit etmeye çalışıyor.Bundan dolayı emit edilmiyor.
@@ -153,7 +152,6 @@ class MarketDbViewModel @Inject constructor(private val marketDbUseCase: MarketD
             }
         }
     }
-
 
     fun getBasketItems() = viewModelScope.launch {
         marketDbUseCase.getBasketItems().collectLatest {

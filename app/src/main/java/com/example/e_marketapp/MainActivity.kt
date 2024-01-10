@@ -14,6 +14,7 @@ import com.example.e_marketapp.viewmodel.MarketDbViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -49,7 +50,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-
                     window.statusBarColor = ContextCompat.getColor(this,R.color.white)
                     bottomNavigationView.visibility = View.GONE
                 }
@@ -62,26 +62,52 @@ class MainActivity : AppCompatActivity() {
     //bundan dolayı diğerini farklı scopa aldım.
     private fun observeBadgeCount(){
         lifecycleScope.launch {
-            marketDbViewModel.getBasketItems()
-            marketDbViewModel.basketState.collectLatest {
-                if (it.basketData?.isEmpty() == true){
-                    badgeClear(R.id.basket)
-                }else{
-                    it.basketData?.size?.let { it1 -> badgeSetup(R.id.basket, it1) }
+            supervisorScope {
+                launch {
+                    marketDbViewModel.getBasketItems()
+                    marketDbViewModel.basketState.collectLatest {
+                        if (it.basketData?.isEmpty() == true){
+                            badgeClear(R.id.basket)
+                        }else{
+                            it.basketData?.size?.let { it1 -> badgeSetup(R.id.basket, it1) }
+                        }
+                    }
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            marketDbViewModel.getAllData.collectLatest {
-                if (it.marketData?.isEmpty() == true){
-                    badgeClear(R.id.favorite)
-                }else{
-                    it.marketData?.size?.let{size->
-                        badgeSetup(R.id.favorite, size)
+                launch {
+                    marketDbViewModel.getAllData.collectLatest {
+                        if (it.marketData?.isEmpty() == true){
+                            badgeClear(R.id.favorite)
+                        }else{
+                            it.marketData?.size?.let{size->
+                                badgeSetup(R.id.favorite, size)
+                            }
+                        }
                     }
                 }
             }
+            //KENDİME NOT :
+            // lifecycleScope.launch {
+            //                marketDbViewModel.getBasketItems()
+            //                marketDbViewModel.basketState.collectLatest {
+            //                    if (it.basketData?.isEmpty() == true){
+            //                        badgeClear(R.id.basket)
+            //                    }else{
+            //                        it.basketData?.size?.let { it1 -> badgeSetup(R.id.basket, it1) }
+            //                    }
+            //                }
+            //            }
+            //
+            //            lifecycleScope.launch {
+            //                marketDbViewModel.getAllData.collectLatest {
+            //                    if (it.marketData?.isEmpty() == true){
+            //                        badgeClear(R.id.favorite)
+            //                    }else{
+            //                        it.marketData?.size?.let{size->
+            //                            badgeSetup(R.id.favorite, size)
+            //                        }
+            //                    }
+            //                }
+            //            }
         }
     }
 
