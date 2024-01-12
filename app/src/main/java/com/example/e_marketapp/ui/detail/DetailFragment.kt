@@ -124,9 +124,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
             marketItemUnStar.setOnClickListener {
                 toastMessage(context = requireContext(), message =  getString(R.string.added_to_favorites))
                 args.itemArgs.apply {
-                    marketDbViewModel.addMarketItem(
-                        baseModelItemToMarketEntity(args.itemArgs)
-                    )
+                    marketDbViewModel.addMarketItem(marketItem = baseModelItemToMarketEntity(args.itemArgs))
                 }
             }
         }

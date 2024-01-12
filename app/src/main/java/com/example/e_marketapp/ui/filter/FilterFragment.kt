@@ -64,7 +64,6 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
             } else {
                 toastMessage(requireContext(), getString(R.string.please_select_at_least_one_option))
             }
-            println(marketDbViewModel.sortByText)
         }
     }
 
@@ -150,29 +149,28 @@ class FilterFragment : BaseFragment<FragmentFilterBinding>(FragmentFilterBinding
 
     private fun brandList(): List<FilterModelItem> {
         return listOf(
-            FilterModelItem("Lamborghini", false),
-            FilterModelItem("Ferrari", false),
-            FilterModelItem("Volkswagen", false),
-            FilterModelItem("Smart", false),
-            FilterModelItem("Fiat", false),
-            FilterModelItem("Land Rover", false),
-            FilterModelItem("Nissan", false),
-            FilterModelItem("Bugatti", false),
-            FilterModelItem("Tesla", false),
-
-            )
+            FilterModelItem(title = getString(R.string.lamborghini), checkBoxValue = false),
+            FilterModelItem(title = getString(R.string.ferrari), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.volkswagen), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.smart), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.fiat),checkBoxValue = false),
+            FilterModelItem(title = getString(R.string.land_rover), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.nissan), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.bugatti), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.tesla), checkBoxValue =false),
+        )
     }
 
     private fun modelList(): List<FilterModelItem> {
         return listOf(
-            FilterModelItem("CTS", false),
-            FilterModelItem("Taurus", false),
-            FilterModelItem("Jetta", false),
-            FilterModelItem("Roadster", false),
-            FilterModelItem("F-150", false),
-            FilterModelItem("Corvette", false),
-            FilterModelItem("Colorado", false),
-            FilterModelItem("911", false),
+            FilterModelItem(title = getString(R.string.cts), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.taurus), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.jetta), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.roadster), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.f_150), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.corvette), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string.colorado), checkBoxValue =false),
+            FilterModelItem(title = getString(R.string._911), checkBoxValue =false),
         )
     }
 

@@ -68,22 +68,6 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
             }
         }
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun initAdapter(){
-        basketAdapter= BasketAdapter(
-            plusClick = {
-                marketDbViewModel.addBasketItem(it)
-            },
-            minusClick = {
-                marketDbViewModel.deleteBasketItem(it)
-            },
-        )
-        basketAdapter.notifyDataSetChanged()
-        binding.basketRecyclerView.adapter=basketAdapter
-        binding.basketRecyclerView.layoutManager=LinearLayoutManager(requireContext())
-    }
-
     private fun observeData(){
         with(marketDbViewModel){
             getBasketItems()
@@ -106,20 +90,32 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
                             setTotalPrice(it)
                             itemList.addAll(it.basketData)
                         }
-                         else if (it.loading==false &&
-                             it.error?.isNotBlank() == false&&
-                             it.basketData?.isNotEmpty() == false){
-                             setVisibleItem(4)
-                             progressBar.visibility=View.INVISIBLE
-                             errorText.visibility=View.VISIBLE
-                             errorText.text=getString(R.string.no_items_in_basket)
+                        else if (it.basketData?.isNotEmpty() == false){
+                            setVisibleItem(4)
+                            progressBar.visibility=View.INVISIBLE
+                            errorText.visibility=View.VISIBLE
+                            errorText.text=getString(R.string.no_items_in_basket)
                         }
                     }
                 }
             }
         }
     }
-
+    @SuppressLint("NotifyDataSetChanged")
+    private fun initAdapter(){
+        basketAdapter= BasketAdapter(
+            plusClick = {
+                marketDbViewModel.addBasketItem(it)
+            },
+            minusClick = {
+                marketDbViewModel.deleteBasketItem(it)
+            },
+        )
+        basketAdapter.notifyDataSetChanged()
+        binding.basketRecyclerView.adapter=basketAdapter
+        binding.basketRecyclerView.layoutManager=LinearLayoutManager(requireContext())
+    }
+    
     private fun setVisibleItem(visible:Int){
         binding.apply {
             basketRecyclerView.visibility=visible
