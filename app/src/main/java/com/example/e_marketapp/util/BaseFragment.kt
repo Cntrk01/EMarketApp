@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
+//Burada binding olarak verilen fragmentin bindingini alarak
+// inflater oluşturarak gelen viewin görünüm değişkenlerini invok ederek görünümü oluşturur.
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
 open class BaseFragment<VB : ViewBinding>(

@@ -34,5 +34,22 @@
     <string name="your_order_is_completed">Your Order is Completed..</string>
     <string name="history">History</string>
     <string name="not_found_history">Not Found History</string>
+    <string name="lamborghini">Lamborghini</string>
+    <string name="ferrari">Ferrari</string>
+    <string name="volkswagen">Volkswagen</string>
+    <string name="smart">Smart</string>
+    <string name="fiat">Fiat</string>
+    <string name="land_rover">Land Rover</string>
+    <string name="nissan">Nissan</string>
+    <string name="bugatti">Bugatti</string>
+    <string name="tesla">Tesla</string>
+    <string name="cts">CTS</string>
+    <string name="taurus">Taurus</string>
+    <string name="jetta">Jetta</string>
+    <string name="roadster">Roadster</string>
+    <string name="f_150">F-150</string>
+    <string name="corvette">Corvette</string>
+    <string name="colorado">Colorado</string>
+    <string name="_911">911</string>
 
 </resources>

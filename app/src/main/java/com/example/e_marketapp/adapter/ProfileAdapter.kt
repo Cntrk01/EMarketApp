@@ -1,5 +1,6 @@
 package com.example.e_marketapp.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,8 +20,9 @@ class ProfileAdapter(
     }
 
     inner class ProfileViewHolder(val binding : ProfileListItemRowBinding) : RecyclerView.ViewHolder(binding.root){
+        @SuppressLint("SetTextI18n")
         fun bind(item:HistoryOrderModel){
-            binding.historyCount.text=item.id.toString()
+            binding.historyCount.text="History : ${item.id.toString()}"
 
             itemView.setOnClickListener {
                 clickHistoryItem?.invoke(item)
