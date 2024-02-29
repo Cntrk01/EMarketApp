@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Samsung S22"
         android:textColor="@color/black"
-        android:textSize="@dimen/header3Size"
+        android:textSize="16dp"
         android:layout_marginStart="@dimen/size10"
         android:layout_marginTop="@dimen/size5"
         app:layout_constraintStart_toStartOf="parent"

@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.example.e_marketapp.R
@@ -38,51 +40,57 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>(FragmentDetailBinding
 
     private fun checkDbHasData() {
         marketDbViewModel.getMealClickedItem(clickMarketId = args.itemArgs.id)
-        lifecycleScope.launch {
-            marketDbViewModel.getAllData.collectLatest {
-                when (it.isDeleted) {
-                    true -> {
-                        binding.marketItemStar.visibility = View.INVISIBLE
-                        binding.marketItemUnStar.visibility = View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+            //Burada ise yaşam döngüsü sahibinin yaşam döngüsünün kontrollerini sağlayabileceğimiz bir kısım gerçekleştirdim
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED){
+                marketDbViewModel.getAllData.collectLatest {
+                    when (it.isDeleted) {
+                        true -> {
+                            binding.marketItemStar.visibility = View.INVISIBLE
+                            binding.marketItemUnStar.visibility = View.VISIBLE
+                        }
+
+                        false -> {
+                            binding.marketItemStar.visibility = View.VISIBLE
+                            binding.marketItemUnStar.visibility = View.INVISIBLE
+                        }
+
+                        else -> {
+                            binding.marketItemStar.visibility = View.INVISIBLE
+                            binding.marketItemUnStar.visibility = View.VISIBLE
+                        }
                     }
 
-                    false -> {
+                    if (it.marketDataWithId != null) {
                         binding.marketItemStar.visibility = View.VISIBLE
                         binding.marketItemUnStar.visibility = View.INVISIBLE
-                    }
-
-                    else -> {
-                        binding.marketItemStar.visibility = View.INVISIBLE
-                        binding.marketItemUnStar.visibility = View.VISIBLE
-                    }
-                }
-
-                if (it.marketDataWithId != null) {
-                    binding.marketItemStar.visibility = View.VISIBLE
-                    binding.marketItemUnStar.visibility = View.INVISIBLE
-                    it.marketDataWithId.apply {
-                        setArgsData(
-                            toolBarText = name,
-                            imageUrl = image,
-                            title = name,
-                            description = description,
-                            price = price,
-                        )
-                    }
-                } else {
-                    args.itemArgs.apply {
-                        setArgsData(
-                            toolBarText = name,
-                            imageUrl = image,
-                            title = name,
-                            description = description,
-                            price = price
-                        )
+                        it.marketDataWithId.apply {
+                            setArgsData(
+                                toolBarText = name,
+                                imageUrl = image,
+                                title = name,
+                                description = description,
+                                price = price,
+                            )
+                        }
+                    } else {
+                        args.itemArgs.apply {
+                            setArgsData(
+                                toolBarText = name,
+                                imageUrl = image,
+                                title = name,
+                                description = description,
+                                price = price
+                            )
+                        }
                     }
                 }
             }
+
+            //viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.DESTROYED){} sıralamsı önemli resume start gibi methodları sırayla yazmak gerekli.
         }
     }
+
 
     @SuppressLint("SetTextI18n")
     private fun setArgsData(

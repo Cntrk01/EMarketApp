@@ -6,11 +6,16 @@ import com.example.e_marketapp.model.HistoryOrderEntity
 import com.example.e_marketapp.model.HistoryOrderModel
 import com.example.e_marketapp.model.MarketEntity
 import com.example.e_marketapp.util.Response
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
@@ -70,17 +75,19 @@ class MarketDbRepositoryImpl @Inject constructor(private val dao: MarketDao) {
     }
 
     fun getBasketItems() : Flow<Response<List<MarketBasketEntity>>>{
-        return channelFlow {
+        return flow {
             try {
-                trySend(Response.Loading())
+                //collect: Bu fonksiyon, her akış öğesi üzerinde işlemi sırasıyla gerçekleştirir. Bir öğe işlenene kadar bir sonraki öğeye geçmez. Bu, önceki öğe işlemi tamamlanmadan bir sonraki öğe üzerinde işlem yapmanıza izin vermez.
+                //collectLatest: Bu fonksiyon, yeni bir öğe alındığında ve önceki işlem henüz tamamlanmamışken, mevcut işlemi iptal edip yeni öğe üzerinde işlem yapar. Yani, her yeni öğe geldiğinde, önceki işleme devam etmez, ancak yeni öğe üzerinde işlem yapar.
+                //Bundan dolayı channelFlow kullanmamızı tavsiye ediyor. collectLatest kısımında farklı contextler arasında geçiş yapıyor çünkü collectLatest esnasında exception geliyor ve context değişiyor akış değiştiği için uygulama patlıyor
+                emit(Response.Loading())
                 val dbData = dao.getBasketItems()
-                dbData.collectLatest {
-                    trySend(Response.Success(data = it))
+                dbData.collect {
+                    emit(Response.Success(data = it))
                 }
             } catch (e: Exception) {
-                trySend(Response.Error(message = e.message.toString() ?: ""))
+                emit(Response.Error(message = e.message.toString() ?: ""))
             }
-            awaitClose()
         }
     }
 
