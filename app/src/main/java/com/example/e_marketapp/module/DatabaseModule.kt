@@ -29,5 +29,5 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideMarketDbRepository(dao: MarketDao) = MarketDbRepositoryImpl(dao = dao)
+    fun provideMarketDbRepository(dao: MarketDatabase) = MarketDbRepositoryImpl(dao = dao.marketDao())
 }

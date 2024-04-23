@@ -11,11 +11,11 @@ import com.example.e_marketapp.util.clickWithDebounce
 class CustomToolBar(context: Context, attrs: AttributeSet) : ConstraintLayout(
     context, attrs
 ) {
-    fun navigationIconSetOnClickListener(function: (view: View) -> Unit) {
-        navigationIconSetOnClickListener = function
+    val navigationIconSetOnClickListener: ((() -> Unit)) -> Unit = { function ->
+        navigationIconSetOnClickListener1 = function
     }
 
-    private var navigationIconSetOnClickListener: (view: View) -> Unit = {}
+    private var navigationIconSetOnClickListener1: () -> Unit = {}
 
     init {
         inflate(context, R.layout.custom_tool_bar, this)
@@ -35,7 +35,7 @@ class CustomToolBar(context: Context, attrs: AttributeSet) : ConstraintLayout(
             setImageDrawable(navigationIcon)
             visibility = if (navigationIconVisibility) View.VISIBLE else View.GONE
             clickWithDebounce {
-                navigationIconSetOnClickListener.invoke(it)
+                navigationIconSetOnClickListener1()
             }
         }
 

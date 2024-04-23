@@ -6,6 +6,8 @@ import com.example.e_marketapp.states.MarketState
 import com.example.e_marketapp.usecase.MarketUseCase
 import com.example.e_marketapp.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -22,7 +24,7 @@ class MarketViewModel @Inject constructor(private val marketUseCase: MarketUseCa
         getMarketData()
     }
 
-    fun getMarketData() = viewModelScope.launch {
+    fun getMarketData() = viewModelScope.launch(Dispatchers.IO) {
         marketUseCase.getMarketData().collect { response ->
             when (response) {
                 is Response.Loading -> {

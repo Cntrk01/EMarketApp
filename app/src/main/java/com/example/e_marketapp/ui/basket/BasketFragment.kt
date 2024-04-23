@@ -115,7 +115,7 @@ class BasketFragment : BaseFragment<FragmentBasketBinding>(FragmentBasketBinding
         binding.basketRecyclerView.adapter=basketAdapter
         binding.basketRecyclerView.layoutManager=LinearLayoutManager(requireContext())
     }
-    
+
     private fun setVisibleItem(visible:Int){
         binding.apply {
             basketRecyclerView.visibility=visible
