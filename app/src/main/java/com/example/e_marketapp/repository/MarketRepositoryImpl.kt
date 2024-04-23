@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
-class MarketRepositoryImpl @Inject constructor(private val api : MarketApi)  {
+class MarketRepositoryImpl @Inject constructor(private val api : MarketApi)   {
 
     suspend fun getMarketData () : Flow<Response<BaseModel>>{
         return flow {
